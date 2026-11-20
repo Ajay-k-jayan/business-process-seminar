@@ -1,0 +1,184 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  height: 100%;
+}
+body {
+  background: #e4e9f0;
+  color: #0f1729;
+  font-family: var(--font-inter), 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible {
+  outline: 3px solid #f08c00;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* ---------- whiteboard ---------- */
+.wb {
+  background: radial-gradient(1200px 700px at 50% 40%, #f7f9fc 0%, #e4e9f0 100%);
+  color: #0f1729;
+}
+.wb-frame {
+  border: 14px solid #cfd6df;
+  border-radius: 14px;
+  box-shadow: inset 0 0 0 2px #b4bcc7, 0 18px 40px -16px rgba(15, 23, 41, 0.45);
+  background: #fdfdfb;
+  cursor: pointer;
+}
+.wb-tray {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: -26px;
+  height: 14px;
+  border-radius: 0 0 8px 8px;
+  background: #b4bcc7;
+}
+
+/* board wipe between topics */
+.wb-wipe {
+  background: #fdfdfb;
+  clip-path: inset(0 100% 0 0);
+  opacity: 1;
+}
+.wb-wipe.on {
+  animation: wbwipe 0.52s ease-in forwards;
+}
+.wb-wipe:not(.on) {
+  transition: opacity 0.3s;
+  opacity: 0;
+  clip-path: inset(0 0 0 0);
+}
+@keyframes wbwipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+.wb-eraser {
+  position: absolute;
+  top: 10%;
+  width: 9%;
+  height: 22%;
+  border-radius: 10px;
+  background: linear-gradient(#3a4250 0 55%, #e9ecef 55% 100%);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+  left: -10%;
+  opacity: 0;
+}
+.wb-wipe.on .wb-eraser {
+  animation: wberase 0.52s ease-in forwards;
+  opacity: 1;
+}
+@keyframes wberase {
+  0% { left: -10%; top: 10%; }
+  50% { top: 60%; }
+  100% { left: 100%; top: 25%; }
+}
+
+/* controls + subtitle */
+.wb-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 10px;
+  background: #1b2540;
+  border: 1px solid #2c3a5c;
+}
+.wb-btn {
+  display: grid;
+  place-items: center;
+  height: 36px;
+  width: 36px;
+  border-radius: 7px;
+  color: #c9d2e3;
+  transition: background 0.15s, color 0.15s;
+}
+.wb-btn:hover {
+  background: #2c3a5c;
+  color: #fff;
+}
+.wb-next {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 36px;
+  margin-left: 4px;
+  padding: 0 10px 0 14px;
+  border-radius: 7px;
+  background: #ffd43b;
+  color: #0f1729;
+  font-size: 15px;
+  font-weight: 800;
+  transition: background 0.15s;
+}
+.wb-next:hover {
+  background: #ffe066;
+}
+.wb-next:disabled {
+  opacity: 0.4;
+}
+/* small (i) badge on drawings that have a hover explanation */
+.wb-info {
+  animation: wbinfo 0.3s ease-out;
+  transition: transform 0.15s;
+}
+.wb-info circle:first-child {
+  transition: fill 0.15s;
+}
+.wb-info.on circle:first-child {
+  fill: #f08c00;
+}
+@keyframes wbinfo {
+  from { opacity: 0; }
+}
+.wb-sub {
+  animation: wbsub 0.45s ease-out;
+}
+@keyframes wbsub {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* hover explanation */
+.wb-tip {
+  width: max-content;
+  max-width: min(380px, 60%);
+  background: #fff;
+  border: 3px solid #0f1729;
+  border-radius: 14px;
+  box-shadow: 0 8px 0 #0f1729, 0 18px 30px -10px rgba(15, 23, 41, 0.4);
+  overflow: hidden;
+  animation: wbtip 0.16s ease-out;
+}
+.wb-tip-title {
+  background: #ffd43b;
+  padding: 8px 14px;
+  font-weight: 800;
+  font-size: clamp(14px, 1.15vw, 19px);
+  color: #0f1729;
+  border-bottom: 3px solid #0f1729;
+}
+.wb-tip-text {
+  padding: 10px 14px 12px;
+  font-weight: 600;
+  font-size: clamp(13px, 1.05vw, 17px);
+  line-height: 1.4;
+  color: #0f1729;
+}
+@keyframes wbtip {
+  from { opacity: 0; }
+}
+.wb-hl {
+  animation: wbhl 1.2s linear infinite;
+}
+@keyframes wbhl {
+  to { stroke-dashoffset: -52; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wb-hl, .wb-sub, .wb-tip, .wb-info { animation: none; }
+}
