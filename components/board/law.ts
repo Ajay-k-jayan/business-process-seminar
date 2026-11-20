@@ -73,8 +73,8 @@ const cover = coverBoard(
   [
     ['What the rule means, word by word', 'First, we learn what the rule means — word by word.'],
     ['The helmet story — and a real Kerala case', 'Then a simple story, and a real road case from Kerala, show how the rule works in real life.'],
-    ['Why the rule exists — and when it bends', 'Next: why the rule exists, and the few times it bends.'],
-    ['History, today’s laws and a quick quiz', 'Finally: its history, today’s laws, and a quick quiz to check what we learned.'],
+    ['Why we obey — and why the rule exists', 'Next: why we obey the rules, and why this rule exists.'],
+    ['Where it comes from — and a quick quiz', 'Finally: where the rule comes from — the Bible — and a quick quiz to check what we learned.'],
   ],
 );
 
@@ -429,8 +429,8 @@ const MEANS: [string, string, string][] = [
 const NOTMEAN: [string, string, string][] = [
   ['Everyone knows every law', 'nobody can know them all', 'It does NOT mean that everyone really knows every law. Nobody can know them all.'],
   ['A secret law still counts', 'a law must be published first', 'It does not mean a secret law counts. A law must be published first.'],
-  ['Mistakes of FACT never count', 'sometimes they can (board 11)', 'It does not mean honest mistakes about FACTS never count. Sometimes they can.'],
-  ['Punishment is always the same', 'it can be lower (board 12)', 'And the punishment is not always the same. In some cases it can be lower.'],
+  ['Mistakes of FACT never count', 'sometimes they can (board 10)', 'It does not mean honest mistakes about FACTS never count. Sometimes they can.'],
+  ['Punishment is always the same', 'in special cases it can be lower', 'And the punishment is not always the same. In some cases it can be lower.'],
 ];
 const means = board('law-means', 'Means / does not mean', SRC, (st) => {
   st('What does this rule really mean — and what does it NOT mean?', title('What it means — and does not', SRC, 70, 92, 900));
@@ -450,37 +450,6 @@ const means = board('law-means', 'Means / does not mean', SRC, (st) => {
       tip(a, b.charAt(0).toUpperCase() + b.slice(1) + '.', cross(880, y - 12, 18, R, 7), text(920, y, a, { size: 38 }), text(920, y + 44, b, { size: 30, color: B })),
     );
   });
-});
-
-/* =========================================================== 4 · OTHER WORDS */
-const words = board('law-words', 'Same idea, other words', SRC, (st) => {
-  st('The same idea is also said in other Latin words. Here are three of them.', title('Same idea, other words', SRC));
-  const row = (y: number, latin: string, english: string, tag: string, tipTitle: string, tipText: string) =>
-    tip(
-      tipTitle,
-      tipText,
-      rect(100, y, 1400, 165, { fill: F.sky }),
-      text(140, y + 66, latin, { size: 50, color: B }),
-      text(140, y + 128, english, { size: 38 }),
-      text(1470, y + 66, tag, { size: 32, color: R, anchor: 'end' }),
-    );
-  st(
-    '“Ignorantia legis neminem excusat” — not knowing the law excuses nobody.',
-    row(150, 'ignorantia legis neminem excusat', '“not knowing the law excuses nobody”', 'same rule', 'Ignorantia legis neminem excusat', 'Another way to say the same rule: not knowing the law excuses nobody.'),
-  );
-  st(
-    '“Nemo censetur ignorare legem” — nobody is thought to be ignorant of the law. The idea goes back to the Greek thinker Aristotle.',
-    row(345, 'nemo censetur ignorare legem', '“nobody is thought not to know the law”', 'from Aristotle', 'Nemo censetur ignorare legem', 'An idea from the Greek thinker Aristotle, put into Latin. It is used in countries whose laws come from old Roman law.'),
-  );
-  st(
-    '“Ignorantia iuris nocet” — not knowing the law hurts you.',
-    row(540, 'ignorantia iuris nocet', '“not knowing the law hurts you”', 'Roman-law countries', 'Ignorantia iuris nocet', 'Also used in countries whose laws come from old Roman law: not knowing the law can harm you.'),
-  );
-  st(
-    'Different words — but all of them say the same thing: not knowing the law does not help you.',
-    hl(170, 750, 1260, 80, F.yellow),
-    text(800, 806, 'All say: not knowing the law does not help', { size: 46, anchor: 'middle' }),
-  );
 });
 
 /* =========================================================== 5 · WHY THE RULE EXISTS */
@@ -566,14 +535,9 @@ const publish = board('law-publish', 'The law must be published', SRC, (st) => {
     ),
   );
   st(
-    'An old saying from Gratian, a church lawyer: laws begin when they are published. A secret law is no law at all.',
-    tip(
-      'Gratian’s saying',
-      '“Leges instituuntur cum promulgantur” — laws begin when they are published. If a law is kept secret, nobody can be blamed for not knowing it.',
-      hl(120, 730, 1360, 130, F.yellow),
-      text(800, 785, '“Leges instituuntur cum promulgantur”', { size: 42, color: B, anchor: 'middle' }),
-      text(800, 838, '= laws begin when they are published · a secret law is no law', { size: 32, anchor: 'middle' }),
-    ),
+    'So: a law starts only when it is published. A secret law is no law at all.',
+    hl(160, 752, 1280, 84, F.yellow),
+    text(800, 808, 'A law starts when it is published — a secret law is no law', { size: 42, anchor: 'middle' }),
   );
 });
 
@@ -620,125 +584,34 @@ const mistake = board('law-mistake', 'Mistake of law vs fact', SRC, (st) => {
   );
 });
 
-/* =========================================================== 8 · WHEN IGNORANCE STILL MATTERS */
-const limits = board('law-limits', 'When it still matters', SRC, (st) => {
-  st('Still, not knowing the law can matter in a few special situations.', title('When “I didn’t know” still matters', SRC));
-  st(
-    'It can make the punishment smaller. In Canada, officials told a man an import was legal. He was found guilty, but not punished.',
-    tip(
-      'Smaller punishment',
-      'Not knowing does not remove the guilt, but it can make the punishment smaller — mainly if the law was unclear or the person asked the officials first. Canada: R v Potter (1978).',
-      panel(50, 140, 480, 730),
-      text(70, 195, '1. Smaller punishment', { size: 38, color: R }),
-      person(150, 520, 0.7, F.orange),
-      bubble(190, 240, 320, 100, 170, 360),
-      text(350, 302, '“It’s legal!”', { size: 38, anchor: 'middle' }),
-      text(290, 600, 'officials said OK →', { size: 32, anchor: 'middle' }),
-      text(290, 650, 'still guilty, but', { size: 34, anchor: 'middle' }),
-      text(290, 700, 'no punishment', { size: 40, color: G, anchor: 'middle' }),
-      text(290, 790, 'Canada · 1978', { size: 30, color: B, anchor: 'middle' }),
-    ),
-  );
-  st(
-    'The law changed while people were far away. Hunters in the forest were set free. A sailor at sea was forgiven.',
-    tip(
-      'Far away when the law changed',
-      'Canada: four hunters were set free because the law changed while they were deep in the forest (Rex v. Ross, 1944). England: a sailor at sea, before radio, was found guilty but forgiven (pardoned) because the law changed while he was away (Rex v. Bailey, 1800).',
-      panel(560, 140, 480, 730),
-      text(580, 195, '2. Law changed away', { size: 38, color: R }),
-      ...[0, 1, 2].map((i) => [
-        ...rect(612 + i * 70, 300, 16, 70, { fill: F.brown, w: 3 }),
-        ...ellipse(620 + i * 70, 290, 64, 90, { fill: F.green }),
-      ]),
-      text(830, 330, 'hunters', { size: 34 }),
-      text(830, 375, '→ set free', { size: 34, color: G }),
-      poly([[598, 490], [802, 490], [770, 540], [630, 540]], { fill: F.brown }),
-      line(700, 490, 700, 400, { w: 5 }),
-      poly([[704, 404], [704, 482], [770, 482]], { fill: F.white }),
-      path('M 590 560 q 25 -14 50 0 t 50 0 t 50 0 t 50 0 t 50 0', { color: B, w: 4 }),
-      text(830, 500, 'sailor', { size: 34 }),
-      text(830, 545, '→ forgiven', { size: 34, color: G }),
-      text(800, 650, 'No phones, no radio:', { size: 32, anchor: 'middle' }),
-      text(800, 695, 'they could not know', { size: 32, anchor: 'middle' }),
-      text(800, 790, '1944 · 1800', { size: 30, color: B, anchor: 'middle' }),
-    ),
-  );
-  st(
-    'Newer thinking: how hard a law is to learn, and what a person really knew, can be taken into account.',
-    tip(
-      'Newer thinking',
-      'Some courts now ask: was this law very hard for a normal person to find out? In crime cases, what the person really knew can change how guilty they are (lawyers call this “mens rea” — a guilty mind).',
-      panel(1070, 140, 480, 730),
-      text(1090, 195, '3. Newer thinking', { size: 38, color: R }),
-      text(1110, 290, 'Hard to learn', { size: 38 }),
-      text(1110, 340, 'for normal people?', { size: 38 }),
-      text(1110, 390, '→ may count', { size: 38, color: G }),
-      line(1110, 440, 1510, 440, { w: 3, color: '#9aa4b1' }),
-      text(1110, 510, 'What did they', { size: 38 }),
-      text(1110, 560, 'really know?', { size: 38 }),
-      text(1110, 610, '→ affects guilt', { size: 38, color: G }),
-      text(1310, 700, '(“guilty mind”)', { size: 32, color: B, anchor: 'middle' }),
-    ),
-  );
-});
-
 /* =========================================================== 9 · HISTORY */
-const EV: [string, string, string, string, string][] = [
-  ['Bible', 'Leviticus 5:17', 'The Bible (Leviticus 5:17)', 'A person who breaks a rule “though he knew it not” is still guilty. Breaking a rule by accident still counts.', 'The idea is very old. It is already in the Bible: breaking a rule without knowing still counts.'],
-  ['Greece & Rome', 'customs', 'Old Greece and Rome', 'People learned the law by living in the town. Roman law came from customs any sensible person would know. Some groups could still say “I didn’t know” for unusual rules: women, young men, soldiers and farmers.', 'In old Greece and Rome, law came from customs that everyone grew up with.'],
-  ['Cicero', 'about 50 BC', 'Cicero', 'The Roman writer Cicero said “true law” is good sense that matches nature — the same everywhere and forever.', 'The Roman writer Cicero said true law is the same everywhere and never changes.'],
-  ['1362', 'laws in English', 'England, 1362', 'A law said court cases should be in English, so every person could understand the law and avoid breaking it.', 'In 1362, England decided the law should be in English, so normal people could understand it.'],
-  ['Coke 1628', '& Selden', 'Edward Coke and John Selden', 'Coke wrote: “Ignorance of the law excuseth not.” Selden explained: not because everyone knows the law, but because everyone would use the excuse.', 'Two English lawyers, Coke and Selden, wrote the rule down clearly.'],
-  ['Blackstone', '1700s', 'William Blackstone', 'This famous English lawyer said the rule is part of English law, just as it was part of Roman law.', 'Blackstone, a famous English lawyer, said it is a firm rule of English law.'],
-  ['Enlightenment', '1700s debate', 'The Enlightenment', 'People argued about the rule: many Europeans could not read, and there were so many laws that only lawyers could know them.', 'In the 1700s, people asked: is this fair when many people cannot read?'],
-];
-const EX = (i: number) => 150 + i * 216;
+// Only the Bible is shown (user's choice). Leviticus 5:17, King James Version (public domain).
 const history = board('law-history', 'Where the rule comes from', SRC, (st) => {
-  st('Where does this rule come from? Let’s draw a timeline, from old to new.', title('Where does the rule come from?', SRC), arrow([[70, 470], [1540, 470]], { w: 7 }));
-  EV.forEach(([head, sub, tt, tx, say], i) => {
-    const up = i % 2 === 0;
-    st(
-      say,
-      tip(
-        tt,
-        tx,
-        ellipse(EX(i), 470, 34, 34, { fill: up ? F.orange : F.blue, w: 4 }),
-        line(EX(i), up ? 452 : 488, EX(i), up ? 400 : 540, { w: 4 }),
-        text(EX(i), up ? 330 : 600, head, { size: 38, color: up ? O : B, anchor: 'middle' }),
-        text(EX(i), up ? 375 : 645, sub, { size: 30, anchor: 'middle' }),
-      ),
-    );
-  });
-  st('So the idea is thousands of years old — and it is still used today.', hl(380, 770, 840, 70, F.yellow), text(800, 820, 'Thousands of years old — still used today', { size: 46, anchor: 'middle' }));
-});
-
-/* =========================================================== 10 · TODAY'S LAWS */
-const CO: [string, string, string, string][] = [
-  ['Brazil', 'Law-Decree 4.657 art. 3', 'Penal Code art. 21', 'Written in Article 3 of Law-Decree 4.657 (the law about how Brazilian laws work) and Article 21 of the Penal Code.'],
-  ['Canada', 'Criminal Code', 'section 19', 'Written in section 19 of the Criminal Code of Canada.'],
-  ['Chile', 'Civil Code', 'articles 7 and 8', 'Written in articles 7 and 8 of the Civil Code of Chile.'],
-  ['Philippines', 'Civil Code', 'article 3', 'Written in article 3 of the Civil Code of the Philippines.'],
-];
-const US: [string, string, string, string, string][] = [
-  ['Cheek v. United States', 'Tax law is very hard: an honest', 'misunderstanding can excuse you', 'In tax crimes, the person must break a duty they knew about. An honest misunderstanding caused by hard tax law can excuse them.', 'Cheek v. United States: tax law is very hard, so an honest misunderstanding of it can excuse you.'],
-  ['Lambert v. California · 1957', 'No real chance to know the law', '→ cannot be found guilty', 'If a person had no real chance to know about a law, and the act is wrong only because a law says so, they cannot be found guilty.', 'Lambert v. California, 1957: if you had no real chance to know a law, you cannot be found guilty.'],
-  ['United States v. Freed · 1971', 'Not for things everyone expects', 'to be controlled: drugs, guns', 'The Lambert exception does not help with things any sensible person expects to be controlled, like drugs or dangerous weapons.', 'United States v. Freed, 1971: this does not cover drugs or guns — everyone expects rules there.'],
-  ['Heien v. North Carolina · 2014', 'A police officer’s reasonable', 'mistake about the law', 'A police officer stopped a car because of an honest, reasonable mistake about the law. The court said the stop was still allowed.', 'Heien, 2014: a police officer’s reasonable mistake about the law did not make a car stop illegal.'],
-];
-const today = board('law-today', 'In today’s laws', SRC, (st) => {
-  st('Many countries write this rule into their laws today.', title('The rule in today’s laws', SRC));
+  st('Where does this rule come from? It is a very old idea — it is already in the Bible.', title('Where does the rule come from?', SRC));
   st(
-    'For example, Brazil, Canada, Chile and the Philippines write it into their main law books.',
-    ...CO.map(([c, l1, l2, tx], i) =>
-      tip(c, tx, rect(60 + i * 375, 150, 350, 200, { fill: [F.green, F.pink, F.orange, F.blue][i] }), text(235 + i * 375, 210, c, { size: 44, anchor: 'middle' }), text(235 + i * 375, 268, l1, { size: 28, anchor: 'middle' }), text(235 + i * 375, 315, l2, { size: 28, anchor: 'middle' })),
-    ),
+    'In the Bible, in the book of Leviticus, chapter 5, verse 17.',
+    book(130, 170, 400, 520, 'BIBLE', F.orange),
+    text(600, 250, 'Leviticus 5:17', { size: 60, color: O }),
+    text(600, 305, '(Old Testament of the Bible)', { size: 32, color: B }),
   );
-  st('The United States has some exceptions. Here are four famous court cases.', text(60, 420, 'USA — exceptions:', { size: 44, color: R }));
-  US.forEach(([c, l1, l2, tx, say], i) => {
-    const x = 60 + (i % 2) * 750;
-    const y = 450 + Math.floor(i / 2) * 215;
-    st(say, tip(c, tx, rect(x, y, 730, 195, { fill: F.white }), text(x + 24, y + 58, c, { size: 36, color: B }), text(x + 24, y + 112, l1, { size: 30 }), text(x + 24, y + 160, l2, { size: 30 })));
-  });
+  st(
+    'In simple words: if a person breaks a rule, even without knowing it, they are still guilty and responsible.',
+    rect(600, 350, 920, 270, { fill: F.paper }),
+    text(630, 405, 'In simple words:', { size: 32, color: B }),
+    text(630, 468, 'A person breaks a rule —', { size: 40 }),
+    text(630, 526, 'even without knowing it —', { size: 40 }),
+    text(630, 584, 'is still guilty and responsible.', { size: 40, color: R }),
+  );
+  st(
+    'The old English Bible says: “though he wist it not, yet is he guilty”. “Wist” is an old word for “knew”.',
+    text(600, 682, '“though he wist it not, yet is he guilty”', { size: 36, color: B }),
+    text(600, 724, '(King James Bible · “wist” = knew)', { size: 28 }),
+  );
+  st(
+    'So the idea is thousands of years old — and it is still used today, like in the Kerala case.',
+    hl(330, 770, 940, 76, F.yellow),
+    text(800, 826, 'Thousands of years old — still used today', { size: 46, anchor: 'middle' }),
+  );
 });
 
 /* =========================================================== 11 · QUICK CHECK */
@@ -746,7 +619,7 @@ const QUIZ: [string, string, string, string, string, string, string, string][] =
   ['1. A driver goes far over the limit, says:', '“I didn’t know the speed limit.”', 'NO excuse ✗', '#ffe3e3', R, 'Mistake of LAW: speed limits are published and on road signs. Not knowing them never excuses you (see the Kerala case).', 'Case 1, like the Kerala case: a driver goes far over the limit and says “I didn’t know the speed limit.”', 'No! That is a mistake of LAW. Speed limits are published — not knowing them is no excuse.'],
   ['2. Someone takes a look-alike umbrella,', 'honestly sure it is theirs.', 'Can be excused ✓', '#e3fbe8', G, 'Mistake of FACT: an honest, wrong belief about what happened can be an excuse.', 'Case 2: someone takes an umbrella that looks just like theirs, honestly sure it is theirs.', 'This can be excused. It is a mistake of FACT — an honest mix-up of umbrellas.'],
   ['3. A new rule is made, but kept', 'secret and never published.', 'Not a law yet', F.sky, B, 'A law must be published first. A secret law is no law at all.', 'Case 3: a new rule is made, but it is kept secret. Nobody published it.', 'Then it is not a law yet. A law must be published first.'],
-  ['4. Officials said something was legal,', 'but the officials were wrong.', 'Smaller punishment', F.yellow, O, 'Like the Canada case (R v Potter, 1978): still guilty, but the punishment can be smaller.', 'Case 4: officials told a person something was legal — but the officials were wrong.', 'Still guilty — but the punishment can be smaller, like the Canada case from 1978.'],
+  ['4. A driver talks on the phone while driving,', 'says: “I didn’t know it was banned.”', 'NO excuse ✗', '#ffe3e3', R, 'Mistake of LAW: using a phone while driving is against the traffic rules. Not knowing the rule does not help.', 'Case 4: a driver talks on the phone while driving and says “I didn’t know it was banned.”', 'No! Again a mistake of LAW. Every driver must know the traffic rules.'],
 ];
 const quiz = board('law-quiz', 'Quick check', SRC, (st) => {
   st('Quick check: when does “I didn’t know” help? Let’s test four short cases.', title('Quick check: excuse or not?', SRC));
@@ -759,11 +632,11 @@ const quiz = board('law-quiz', 'Quick check', SRC, (st) => {
 
 /* =========================================================== 12 · REMEMBER */
 const POINTS: [string, string][] = [
-  ['Not knowing the law is no excuse', 'Boards 2–6 · The helmet story, the real Kerala case, why we obey.'],
-  ['A law must be published first', 'Board 10 · A secret law is no law at all.'],
-  ['Finding out the rules is your job', 'Boards 7 and 9 · Ask, read and check before you act.'],
-  ['An honest mistake about FACTS can be an excuse', 'Board 11 · Mistake of law vs mistake of fact.'],
-  ['Not knowing can still make punishment smaller', 'Board 12 · Special situations.'],
+  ['Not knowing the law is no excuse', 'Boards 2–5 · The helmet story and the real Kerala case.'],
+  ['A law must be published first', 'Board 9 · A secret law is no law at all.'],
+  ['Finding out the rules is your job', 'Boards 7 and 8 · Ask, read and check before you act.'],
+  ['An honest mistake about FACTS can be an excuse', 'Board 10 · Mistake of law vs mistake of fact.'],
+  ['Rules keep us safe — so we obey them', 'Board 6 · A game has a restart button. Real life does not.'],
 ];
 const summary = board('law-summary', 'Remember: 5 points', 'Summary', (st) => {
   st('Let’s remember the five main points of this topic.', title('Remember: 5 points', 'Summary'));
@@ -816,4 +689,4 @@ const life = board('law-life', 'In daily life', 'Takeaway', (st) => {
   );
 });
 
-export const LAW_BOARDS: Board[] = [cover, rule, story, kerala, kerala2, obey, means, words, why, publish, mistake, limits, history, today, quiz, summary, life].map((x) => ({ ...x, topic: 1 }));
+export const LAW_BOARDS: Board[] = [cover, rule, story, kerala, kerala2, obey, means, why, publish, mistake, history, quiz, summary, life].map((x) => ({ ...x, topic: 1 }));

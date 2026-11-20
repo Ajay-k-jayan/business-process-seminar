@@ -25,7 +25,6 @@ import {
   panel,
   poly,
   rect,
-  shop,
   text,
   tick,
   tip,
@@ -59,60 +58,6 @@ const cover = coverBoard(
 );
 
 /* =========================================================== 1 · INTRO */
-const intro = board('intro', 'Our example', 'Book 2', (st) => {
-  st(
-    'Our example for this whole topic: one home, one grocery shop, and one 5 kg bag of rice.',
-    tip(
-      'Our example',
-      'We explain everything with one simple story: a home buys one bag of rice from a grocery shop.',
-      title('Our example: home and grocery', 'Book 2'),
-    ),
-  );
-  st(
-    'This is your home. The rice jar in the kitchen is empty — you need rice.',
-    tip('Your home = the buyer', 'Buys the rice. Every paper written at home is a PURCHASE paper (orange).', house(320, 660, 1.25, 'HOME'), text(320, 790, '(the buyer)', { size: 34, anchor: 'middle' })),
-  );
-  st(
-    'This is the grocery shop down the road. It sells rice.',
-    tip('The grocery = the seller', 'Sells the rice. Every paper written at the shop is a SALES paper (blue).', shop(1280, 660, 1.25, 'GROCERY'), text(1280, 790, '(the seller)', { size: 34, anchor: 'middle' })),
-  );
-  st(
-    'Everything today is about this ONE bag of rice: 5 kg, price ₹350.',
-    tip('The 5 kg rice bag', 'Our one item for the whole session. It costs ₹350.', bag(800, 600, 1.45), text(800, 660, '5 kg rice · ₹350', { size: 40, anchor: 'middle' })),
-  );
-  st(
-    'An order goes from the home to the shop…',
-    tip(
-      'The order',
-      'The request travels from home to shop. In FactsERP: Requisition → Order.',
-      arrow(
-        [
-          [520, 330],
-          [800, 250],
-          [1080, 330],
-        ],
-        { color: O },
-      ),
-      text(800, 340, 'order →', { size: 44, color: O, anchor: 'middle' }),
-    ),
-  );
-  st(
-    '…and the rice and the bill come back. Every step leaves a paper — and FactsERP keeps all those papers.',
-    tip(
-      'Rice + bill',
-      'The shop sends the bag (Delivery Order) and the bill (Invoice) back to the home.',
-      arrow(
-        [
-          [1080, 700],
-          [800, 770],
-          [520, 700],
-        ],
-        { color: B },
-      ),
-      text(800, 830, '← rice + bill', { size: 44, color: B, anchor: 'middle' }),
-    ),
-  );
-});
 
 /* =========================================================== 2 · EVERYTHING IS A DOCUMENT (p.3) */
 const everything = board('doc', 'Everything is a document', 'Book p.3', (st) => {
@@ -939,11 +884,11 @@ const cycle = board('cycle', 'The full cycle', 'Book p.9', (st) => {
 
 /* =========================================================== 14 · RECAP */
 const RECAP: [string, string][] = [
-  ['One form, many papers — papers copy each other', 'Boards 4–5 · Source Document vs Document (p.4) and inheritance (p.5).'],
-  ['Purchase cycle: PR → PQ → PO → GRN → PI → PV', 'Boards 6–7 · The 6 papers the home (buyer) writes.'],
-  ['Sales cycle: SE → SQ → SO → DO → SI → RV', 'Boards 8–9 · The 6 papers the grocery (seller) writes.'],
-  ['Every home paper has a grocery twin', 'Boards 10–11 · Twin papers and the full cycle: both books match.'],
-  ['Link later, but check stock now', 'Boards 12–18 · How papers link, and the linking rules (p.5–8).'],
+  ['One form, many papers — papers copy each other', 'Boards 3–4 · Source Document vs Document (p.4) and inheritance (p.5).'],
+  ['Purchase cycle: PR → PQ → PO → GRN → PI → PV', 'Boards 5–6 · The 6 papers the home (buyer) writes.'],
+  ['Sales cycle: SE → SQ → SO → DO → SI → RV', 'Boards 7–8 · The 6 papers the grocery (seller) writes.'],
+  ['Every home paper has a grocery twin', 'Boards 9–10 · Twin papers and the full cycle: both books match.'],
+  ['Link later, but check stock now', 'Boards 11–17 · How papers link, and the linking rules (p.5–8).'],
 ];
 const recap = board('recap', 'Remember', 'Summary', (st) => {
   st('Five things to remember from this topic.', title('Remember', 'Summary', 70, 92, 330));
@@ -952,7 +897,7 @@ const recap = board('recap', 'Remember', 'Summary', (st) => {
 });
 
 const { purchase1, purchase2, sales1, sales2 } = CYCLE_BOARDS;
-const ERP_BOARDS: Board[] = [cover, intro, everything, mould, copy, purchase1, purchase2, sales1, sales2, twins, cycle, chain, rules1, rules2, rules3, tag, messy, many, recap].map((x) => ({ ...x, topic: 2 }));
+const ERP_BOARDS: Board[] = [cover, everything, mould, copy, purchase1, purchase2, sales1, sales2, twins, cycle, chain, rules1, rules2, rules3, tag, messy, many, recap].map((x) => ({ ...x, topic: 2 }));
 
 /** the two separate topics of the seminar */
 export const TOPICS = [

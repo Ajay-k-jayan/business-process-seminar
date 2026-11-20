@@ -25,18 +25,18 @@ Double-click **`Start seminar.cmd`**. The browser opens at http://localhost:3000
 Each topic has its own cover, its own examples, its own numbering and progress bar. The Contents menu (C) lists them side by side.
 
 **Topic 1 — Ignorance of the Law** (*ignorantia juris non excusat*, from the Wikipedia article; everyday examples: a helmet rule, look-alike umbrellas):
-1 Start · 2 The rule, word by word · 3 A story on the road · 4 What it means / does not mean · 5 Same idea, other words ·
-6 Why the rule exists · 7 The law must be published · 8 Mistake of law vs fact · 9 When it still matters ·
-10 Where the rule comes from · 11 Today’s laws · 12 Quick check · 13 Remember: 5 points · 14 In daily life
+1 Start · 2 The rule, word by word · 3 A story on the road · 4–5 A real case from Kerala · 6 Why we obey the rules ·
+7 What it means / does not mean · 8 Why the rule exists · 9 The law must be published · 10 Mistake of law vs fact ·
+11 Where the rule comes from (the Bible) · 12 Quick check · 13 Remember: 5 points · 14 In daily life
 
 **Topic 2 — Business Process** (FactsERP Book 2, pages 3–9; one example: a home buys one 5 kg bag of rice for ₹350 from a grocery):
-1 Start · 2 Our example · 3 Everything is a document · 4 Mould → Bricks · 5 The magic copy ·
-6–7 **Purchase cycle** (home buys): PR → PQ → PO → GRN → PI → PV ·
-8–9 **Sales cycle** (grocery sells): SE → SQ → SO → DO → SI → RV ·
-10 Twin papers · 11 The full 10-paper cycle · 12 The sales chain · 13–14 Why link separately (rules 1–7) · 15 Rules 8–10 ·
-16 One delivery → one bill · 17 Real deliveries · 18 Many-to-many · 19 Remember
+1 Start · 2 Everything is a document · 3 Mould → Bricks · 4 The magic copy ·
+5–6 **Purchase cycle** (home buys): PR → PQ → PO → GRN → PI → PV ·
+7–8 **Sales cycle** (grocery sells): SE → SQ → SO → DO → SI → RV ·
+9 Twin papers · 10 The full 10-paper cycle · 11 The sales chain · 12–13 Why link separately (rules 1–7) · 14 Rules 8–10 ·
+15 One delivery → one bill · 16 Real deliveries · 17 Many-to-many · 18 Remember
 
-A board can be opened directly by its overall number: `http://localhost:3000/#5` (board 5) or `#5.3` (board 5, step 3). Topic 2 starts at `#18`.
+A board can be opened directly by its overall number: `http://localhost:3000/#5` (board 5) or `#5.3` (board 5, step 3). Topic 2 starts at `#15`.
 
 ## Change the content
 
