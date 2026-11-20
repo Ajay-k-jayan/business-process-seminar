@@ -338,8 +338,9 @@ export function coverBoard(id: string, n: number, name: string, sub: string, int
         ...text(800, 102, `TOPIC ${n}`, { size: 46, color: n === 1 ? R : B, anchor: 'middle' }),
         ...hl(800 - name.length * 24 - 30, 160, name.length * 48 + 60, 110),
         ...text(800, 245, name, { size: 92, anchor: 'middle' }),
-        ...text(800, 320, sub, { size: 36, color: B, anchor: 'middle' }),
-        ...(sub2 ? text(800, 372, sub2, { size: 34, color: O, anchor: 'middle' }) : []),
+        // with a pronunciation line: say it first, then the meaning
+        ...(sub2 ? text(800, 320, sub2, { size: 34, color: O, anchor: 'middle' }) : []),
+        ...text(800, sub2 ? 372 : 320, sub, { size: 36, color: B, anchor: 'middle' }),
       ],
     },
   ];
