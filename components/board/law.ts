@@ -68,8 +68,8 @@ const cover = coverBoard(
   'law-cover',
   1,
   'Ignorantia juris non excusat',
-  'Latin for: “Ignorance of the law is no excuse”',
-  'Topic 1: “Ignorantia juris non excusat” — Latin for “ignorance of the law is no excuse”. We explain it in simple words.',
+  '',
+  'Topic 1: “Ignorantia juris non excusat”. Say it with me — then on the next board we explain what it means, word by word.',
   [
     ['What the rule means, word by word', 'First, we learn what the rule means — word by word.'],
     ['The helmet story — and a real Kerala case', 'Then a simple story, and a real road case from Kerala, show how the rule works in real life.'],

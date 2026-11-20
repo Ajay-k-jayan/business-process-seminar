@@ -333,7 +333,7 @@ export function book(x: number, y: number, w: number, h: number, label: string, 
 
 /** cover board that opens a topic: big topic name, then "What we will learn" ticked one by one */
 export function coverBoard(id: string, n: number, name: string, sub: string, intro: string, learn: [string, string][], sub2?: string): Board {
-  const dy = sub2 ? 40 : 0;
+  const dy = sub2 && sub ? 40 : 0;
   const steps: Step[] = [
     {
       say: intro,
@@ -344,7 +344,7 @@ export function coverBoard(id: string, n: number, name: string, sub: string, int
         ...text(800, 245, name, { size: 92, anchor: 'middle' }),
         // with a pronunciation line: say it first, then the meaning
         ...(sub2 ? text(800, 320, sub2, { size: 34, color: O, anchor: 'middle' }) : []),
-        ...text(800, sub2 ? 372 : 320, sub, { size: 36, color: B, anchor: 'middle' }),
+        ...(sub ? text(800, sub2 ? 372 : 320, sub, { size: 36, color: B, anchor: 'middle' }) : []),
       ],
     },
   ];
