@@ -602,8 +602,8 @@ const rules3 = board('rules3', 'Rules 8–10', 'Book p.6', (st) => {
 });
 
 /* =========================================================== 10 · ONE-TO-ONE TAG (p.6) */
-const tag = board('tag', 'One-to-one (1 : 1)', 'Book p.6', (st) => {
-  st('One-to-One (1 : 1): one delivery becomes exactly one bill. But how does the bill remember its delivery?', title('One-to-One (1 : 1)', 'Book p.6'));
+const tag = board('tag', 'Cardinality 1 : 1 (One-to-One)', 'Book p.6', (st) => {
+  st('Cardinality One-to-One (1 : 1): one delivery becomes exactly one bill. But how does the bill remember its delivery?', title('Cardinality 1 : 1 — One-to-One', 'Book p.6'));
   st(
     'One delivery arrives: Goods Receipt Note number 1.',
     tip('GRN 1 · Goods Receipt Note', 'Records one delivery: 1 bag of 5 kg rice arrived.', rect(90, 200, 420, 230, { fill: F.green }), text(120, 275, 'GRN 1', { size: 56 }), text(120, 345, 'delivery', { size: 38 }), text(120, 400, '1 bag · 5 kg rice', { size: 36 })),
@@ -674,8 +674,8 @@ const KINDS: [string, string, number, number, string, string, string, string][] 
   ['N : 1', 'Many-to-One', 2, 1, 'many deliveries →', 'one bill', 'Mon + Thu → 1 weekly bill', 'Many-to-one: MANY deliveries are put into ONE bill.'],
   ['M : N', 'Many-to-Many', 2, 2, 'any delivery →', 'any bill', '2 × 2 = 4 links', 'Many-to-many: any delivery can go into any bill — every pair. This is called a Cartesian link.'],
 ];
-const links = board('links', '4 kinds of links', 'Book p.6–8', (st) => {
-  st('A delivery and its bill must be linked. There are 4 kinds of links. Let’s meet them one by one.', title('4 kinds of links', 'Book p.6–8'));
+const links = board('links', 'Cardinality: 4 kinds of links', 'Book p.6–8', (st) => {
+  st('A delivery and its bill must be linked. CARDINALITY means: how many papers on one side link to how many on the other. There are 4 kinds.', title('Cardinality — 4 kinds of links', 'Book p.6–8'));
   KINDS.forEach(([code, name, nl, nr, m1, m2, ex, say], i) => {
     const x = 60 + i * 375;
     st(
@@ -693,12 +693,13 @@ const links = board('links', '4 kinds of links', 'Book p.6–8', (st) => {
     'In every kind, each bill line keeps a tag that points back to its delivery line.',
     hl(200, 700, 1200, 80, F.yellow),
     text(800, 756, 'Every bill line keeps a tag back to its delivery line', { size: 40, anchor: 'middle' }),
+    text(800, 840, 'Cardinality = how many papers link to how many papers', { size: 34, color: B, anchor: 'middle' }),
   );
 });
 
 /* =========================================================== 11a · ONE-TO-MANY (p.7) */
-const one2many = board('one2many', 'One-to-many (1 : N)', 'Book p.7', (st) => {
-  st('One-to-Many (1 : N): ONE delivery is split into MANY bills.', title('One-to-Many (1 : N)', 'Book p.7'));
+const one2many = board('one2many', 'Cardinality 1 : N (One-to-Many)', 'Book p.7', (st) => {
+  st('Cardinality One-to-Many (1 : N): ONE delivery is split into MANY bills.', title('Cardinality 1 : N — One-to-Many', 'Book p.7'));
   st(
     'One box arrives with rice AND sugar. That is one delivery: GRN 1.',
     rect(70, 250, 300, 220, { fill: F.green }),
@@ -735,8 +736,8 @@ const one2many = board('one2many', 'One-to-many (1 : N)', 'Book p.7', (st) => {
 });
 
 /* =========================================================== 11b · MANY-TO-ONE (p.7) */
-const many2one = board('many2one', 'Many-to-one (N : 1)', 'Book p.7', (st) => {
-  st('Many-to-One (N : 1): MANY deliveries are put into ONE bill.', title('Many-to-One (N : 1)', 'Book p.7'));
+const many2one = board('many2one', 'Cardinality N : 1 (Many-to-One)', 'Book p.7', (st) => {
+  st('Cardinality Many-to-One (N : 1): MANY deliveries are put into ONE bill.', title('Cardinality N : 1 — Many-to-One', 'Book p.7'));
   st(
     'The shop delivers rice twice: on Monday (GRN 1) and on Thursday (GRN 2).',
     rect(70, 180, 300, 150, { fill: F.green }),
@@ -773,8 +774,8 @@ const many2one = board('many2one', 'Many-to-one (N : 1)', 'Book p.7', (st) => {
 });
 
 /* =========================================================== 12 · MANY-TO-MANY (p.8) */
-const many = board('many', 'Many-to-many (M : N)', 'Book p.8', (st) => {
-  st('Many-to-Many (M : N): many deliveries and many bills, all linked to each other.', title('Many-to-Many (M : N) — Cartesian', 'Book p.8', 70, 92, 1070));
+const many = board('many', 'Cardinality M : N (Many-to-Many)', 'Book p.8', (st) => {
+  st('Cardinality Many-to-Many (M : N), also called Cartesian: many deliveries and many bills, all linked to each other.', title('Cardinality M : N — Many-to-Many (Cartesian)', undefined, 70, 92, 1250));
   st(
     'Two deliveries of 10 bags each on the left. Two bills of 10 bags each on the right.',
     chip(120, 170, 380, 100, 'GRN 1 · 10 bags', '', F.green, 40),

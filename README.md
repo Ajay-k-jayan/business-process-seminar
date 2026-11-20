@@ -34,7 +34,7 @@ Each topic has its own cover, its own examples, its own numbering and progress b
 4–9 **Buying story** (Mom at home, one board per paper): PR → PQ → PO → GRN → PI → PV · 10–11 Purchase cycle at a glance ·
 12–17 **Selling story** (Ravi at the grocery): SE → SQ → SO → DO → SI → RV · 18–19 Sales cycle at a glance ·
 20 Reciprocal papers · 21 The full 10-paper cycle · 22 The sales chain · 23–24 Why link separately (rules 1–7) · 25 Rules 8–10 ·
-26 4 kinds of links · 27 One-to-One (1 : 1) · 28 One-to-Many (1 : N) · 29 Many-to-One (N : 1) · 30 Many-to-Many (M : N, Cartesian) · 31 Remember
+26 Cardinality: 4 kinds of links · 27 Cardinality 1 : 1 · 28 Cardinality 1 : N · 29 Cardinality N : 1 · 30 Cardinality M : N (Cartesian) · 31 Remember
 
 A board can be opened directly by its overall number: `http://localhost:3000/#5` (board 5) or `#5.3` (board 5, step 3). Topic 2 starts at `#15`.
 
