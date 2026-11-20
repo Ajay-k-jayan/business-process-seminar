@@ -470,7 +470,7 @@ const rules2 = board('rules2', 'Linking rules 5–7', 'Book p.5', (st) => {
   );
 });
 
-/* =========================================================== 8 · TWIN PAPERS (p.6) */
+/* =========================================================== 8 · RECIPROCAL PAPERS (p.6) */
 const TW = 210;
 const twX = (i: number) => 80 + i * 250;
 const BUY: [string, string, string, string][] = [
@@ -489,8 +489,8 @@ const SELL: [string, string, string, string][] = [
   ['SI', 'bill', 'Sales Invoice', 'The shop’s bill: ₹350.'],
   ['RV', 'collect', 'Receipt Voucher', 'The shop records the money received.'],
 ];
-const twins = board('twins', 'Twin papers', 'Book p.6', (st) => {
-  st('Now put both cycles side by side. When the home BUYS, the grocery SELLS — every paper has a twin.', title('Two sides — twin papers', 'Book p.6'));
+const twins = board('twins', 'Reciprocal papers', 'Book p.6', (st) => {
+  st('Now put both cycles side by side. When the home BUYS, the grocery SELLS — every paper has a reciprocal paper.', title('Two sides — reciprocal papers', 'Book p.6'));
   st(
     'At HOME we write: Requisition, Quotation, Order, Goods Receipt, Invoice, Payment.',
     tip('The purchase cycle', 'The six papers the buyer (your home) writes, in order.', text(80, 205, 'HOME buys:', { size: 46, color: O })),
@@ -506,7 +506,7 @@ const twins = board('twins', 'Twin papers', 'Book p.6', (st) => {
     ),
   );
   st(
-    'At the GROCERY they write the twin of each: Enquiry, Quotation, Order, Delivery, Invoice, Receipt.',
+    'At the GROCERY they write the reciprocal of each: Enquiry, Quotation, Order, Delivery, Invoice, Receipt.',
     tip('The sales cycle', 'The six papers the seller (the grocery) writes, in order.', text(80, 575, 'GROCERY sells:', { size: 46, color: B })),
     ...SELL.map(([c, n, full, why], i) => tip(`${c} · ${full}`, why, doc(twX(i), 605, TW, 120, c, n, F.blue))),
     ...[0, 1, 2, 3, 4].map((i) =>
@@ -520,7 +520,7 @@ const twins = board('twins', 'Twin papers', 'Book p.6', (st) => {
     ),
   );
   st(
-    'Every paper at home has a TWIN paper at the shop.',
+    'Every paper at home has a RECIPROCAL paper at the shop: the same event, seen from the other side. PO ↔ SO, GRN ↔ DO, PI ↔ SI, PV ↔ RV.',
     ...[0, 1, 2, 3, 4, 5].map((i) =>
       dashed(
         [
@@ -530,7 +530,7 @@ const twins = board('twins', 'Twin papers', 'Book p.6', (st) => {
         { color: G, w: 5, dash: 12, gap: 10 },
       ),
     ),
-    tip('Twins', 'Each home paper has a matching grocery paper for the same event — e.g. PO (home orders) ↔ SO (shop confirms).', hl(745, 440, 160, 60, F.green), text(825, 482, 'twins', { size: 44, anchor: 'middle' })),
+    tip('Reciprocal', 'Each home paper has a matching grocery paper for the same event — e.g. PO (home orders) ↔ SO (shop confirms).', hl(705, 440, 210, 60, F.green), text(810, 482, 'reciprocal', { size: 38, anchor: 'middle' })),
   );
   st(
     'Real life: the order can change, a step can be skipped, and one order can come in many deliveries.',
@@ -602,8 +602,8 @@ const rules3 = board('rules3', 'Rules 8–10', 'Book p.6', (st) => {
 });
 
 /* =========================================================== 10 · ONE-TO-ONE TAG (p.6) */
-const tag = board('tag', 'One-to-one link', 'Book p.6', (st) => {
-  st('How does a bill remember which delivery it came from?', title('One delivery → one bill', 'Book p.6'));
+const tag = board('tag', 'One-to-one (1 : 1)', 'Book p.6', (st) => {
+  st('One-to-One (1 : 1): one delivery becomes exactly one bill. But how does the bill remember its delivery?', title('One-to-One (1 : 1)', 'Book p.6'));
   st(
     'One delivery arrives: Goods Receipt Note number 1.',
     tip('GRN 1 · Goods Receipt Note', 'Records one delivery: 1 bag of 5 kg rice arrived.', rect(90, 200, 420, 230, { fill: F.green }), text(120, 275, 'GRN 1', { size: 56 }), text(120, 345, 'delivery', { size: 38 }), text(120, 400, '1 bag · 5 kg rice', { size: 36 })),
@@ -658,111 +658,162 @@ const tag = board('tag', 'One-to-one link', 'Book p.6', (st) => {
   );
 });
 
-/* =========================================================== 11 · MESSY DELIVERIES (p.7) */
-const messy = board('messy', 'Real deliveries', 'Book p.7', (st) => {
-  st('Page 7: real deliveries rarely match the bills one to one.', title('Real deliveries are messy', 'Book p.7'), line(800, 150, 800, 740, { color: '#9aa4b1', w: 4 }));
+/* =========================================================== 10a · THE 4 KINDS OF LINKS (p.6–8) */
+/** mini diagram: every left box links to every right box */
+function mini(x: number, nl: number, nr: number): Item[] {
+  const ys = (n: number) => (n === 1 ? [345] : [305, 385]);
+  const out: Item[] = [];
+  ys(nl).forEach((y) => out.push(...rect(x + 25, y - 26, 110, 52, { fill: F.green, w: 4 }), ...text(x + 80, y + 9, 'GRN', { size: 26, anchor: 'middle' })));
+  ys(nr).forEach((y) => out.push(...rect(x + 215, y - 26, 110, 52, { fill: F.orange, w: 4 }), ...text(x + 270, y + 9, 'PI', { size: 26, anchor: 'middle' })));
+  ys(nl).forEach((a) => ys(nr).forEach((b) => out.push(...arrow([[x + 139, a], [x + 209, b]], { w: 4, color: B }))));
+  return out;
+}
+const KINDS: [string, string, number, number, string, string, string, string][] = [
+  ['1 : 1', 'One-to-One', 1, 1, 'one delivery →', 'exactly one bill', 'GRN 1 → PI 1', 'One-to-one: one delivery becomes exactly one bill. The simplest case.'],
+  ['1 : N', 'One-to-Many', 1, 2, 'one delivery →', 'many bills', 'rice + sugar → 2 bills', 'One-to-many: ONE delivery is billed in MANY bills.'],
+  ['N : 1', 'Many-to-One', 2, 1, 'many deliveries →', 'one bill', 'Mon + Thu → 1 weekly bill', 'Many-to-one: MANY deliveries are put into ONE bill.'],
+  ['M : N', 'Many-to-Many', 2, 2, 'any delivery →', 'any bill', '2 × 2 = 4 links', 'Many-to-many: any delivery can go into any bill — every pair. This is called a Cartesian link.'],
+];
+const links = board('links', '4 kinds of links', 'Book p.6–8', (st) => {
+  st('A delivery and its bill must be linked. There are 4 kinds of links. Let’s meet them one by one.', title('4 kinds of links', 'Book p.6–8'));
+  KINDS.forEach(([code, name, nl, nr, m1, m2, ex, say], i) => {
+    const x = 60 + i * 375;
+    st(
+      say,
+      rect(x, 150, 350, 500, { fill: F.white }),
+      text(x + 175, 222, code, { size: 60, color: P, anchor: 'middle' }),
+      text(x + 175, 268, name, { size: 34, anchor: 'middle' }),
+      mini(x, nl, nr),
+      text(x + 175, 490, m1, { size: 30, anchor: 'middle' }),
+      text(x + 175, 532, m2, { size: 30, anchor: 'middle' }),
+      text(x + 175, 610, ex, { size: 26, color: B, anchor: 'middle' }),
+    );
+  });
   st(
-    'ONE TO MANY: one box with rice and sugar, but two bills. Both bills point back to the same GRN 1.',
-    tip(
-      'One-to-many',
-      'One GRN, several PIs. Every bill line carries the same GRN 1 tag.',
-      text(400, 205, 'One → Many', { size: 48, color: P, anchor: 'middle' }),
-      rect(70, 330, 270, 200, { fill: F.green }),
-      text(205, 400, 'GRN 1', { size: 48, anchor: 'middle' }),
-      text(205, 455, 'rice + sugar', { size: 32, anchor: 'middle' }),
-      rect(480, 260, 270, 130, { fill: F.orange }),
-      text(615, 318, 'PI 1', { size: 44, anchor: 'middle' }),
-      text(615, 365, 'rice ₹400', { size: 32, anchor: 'middle' }),
-      rect(480, 470, 270, 130, { fill: F.orange }),
-      text(615, 528, 'PI 2', { size: 44, anchor: 'middle' }),
-      text(615, 575, 'sugar ₹50', { size: 32, anchor: 'middle' }),
-      arrow([
-        [345, 400],
-        [472, 330],
-      ]),
-      arrow([
-        [345, 460],
-        [472, 530],
-      ]),
-      text(410, 700, 'both bills → GRN 1', { size: 40, color: G, anchor: 'middle' }),
-    ),
+    'In every kind, each bill line keeps a tag that points back to its delivery line.',
+    hl(200, 700, 1200, 80, F.yellow),
+    text(800, 756, 'Every bill line keeps a tag back to its delivery line', { size: 40, anchor: 'middle' }),
+  );
+});
+
+/* =========================================================== 11a · ONE-TO-MANY (p.7) */
+const one2many = board('one2many', 'One-to-many (1 : N)', 'Book p.7', (st) => {
+  st('One-to-Many (1 : N): ONE delivery is split into MANY bills.', title('One-to-Many (1 : N)', 'Book p.7'));
+  st(
+    'One box arrives with rice AND sugar. That is one delivery: GRN 1.',
+    rect(70, 250, 300, 220, { fill: F.green }),
+    text(220, 325, 'GRN 1', { size: 52, anchor: 'middle' }),
+    text(220, 380, '1 box:', { size: 32, anchor: 'middle' }),
+    text(220, 425, 'rice + sugar', { size: 32, anchor: 'middle' }),
   );
   st(
-    'MANY TO ONE: Monday’s and Thursday’s deliveries, one weekly bill on Sunday for ₹700.',
-    tip(
-      'Many-to-one',
-      'Several GRNs, one PI. The weekly bill holds one line per delivery, each with its own tag.',
-      text(1200, 205, 'Many → One', { size: 48, color: P, anchor: 'middle' }),
-      rect(850, 260, 270, 130, { fill: F.green }),
-      text(985, 318, 'GRN 1', { size: 44, anchor: 'middle' }),
-      text(985, 365, 'Monday', { size: 32, anchor: 'middle' }),
-      rect(850, 470, 270, 130, { fill: F.green }),
-      text(985, 528, 'GRN 2', { size: 44, anchor: 'middle' }),
-      text(985, 575, 'Thursday', { size: 32, anchor: 'middle' }),
-      rect(1260, 330, 270, 200, { fill: F.orange }),
-      text(1395, 400, 'PI', { size: 48, anchor: 'middle' }),
-      text(1395, 455, 'Sunday ₹700', { size: 32, anchor: 'middle' }),
-      arrow([
-        [1125, 330],
-        [1252, 400],
-      ]),
-      arrow([
-        [1125, 530],
-        [1252, 460],
-      ]),
-      text(1200, 700, 'one weekly bill', { size: 40, color: G, anchor: 'middle' }),
-    ),
+    'But the shop sends TWO bills: one for the rice, one for the sugar.',
+    rect(520, 180, 300, 150, { fill: F.orange }),
+    text(670, 245, 'PI 1', { size: 46, anchor: 'middle' }),
+    text(670, 295, 'rice ₹400', { size: 32, anchor: 'middle' }),
+    rect(520, 400, 300, 150, { fill: F.orange }),
+    text(670, 465, 'PI 2', { size: 46, anchor: 'middle' }),
+    text(670, 515, 'sugar ₹50', { size: 32, anchor: 'middle' }),
+    arrow([[375, 330], [512, 260]], { w: 6 }),
+    arrow([[375, 400], [512, 470]], { w: 6 }),
   );
   st(
-    'Both cases use the same PURCHASE_DETAILS tags — each bill line points to its delivery line.',
-    tip('Same tags', 'Both cases use the PURCHASE_DETAILS fields PURDET_PREVIOUS_FYCODE, _DOCTYPE, _DOCNO and _DOCSRNO.', hl(330, 770, 940, 64, F.yellow), text(800, 815, 'Same PURCHASE_DETAILS tags', { size: 44, anchor: 'middle' })),
+    'How is it linked? Each bill line carries a tag pointing back to the SAME delivery, GRN 1.',
+    rect(900, 180, 640, 400, { fill: F.paper }),
+    text(930, 240, 'How it is linked:', { size: 36, color: B }),
+    text(930, 310, '• PI 1, rice line →', { size: 32 }),
+    text(980, 355, 'tag: GRN 1, line 1', { size: 32, color: G }),
+    text(930, 425, '• PI 2, sugar line →', { size: 32 }),
+    text(980, 470, 'tag: GRN 1, line 2', { size: 32, color: G }),
+    text(930, 540, '• Both bills → the same GRN', { size: 32 }),
+  );
+  st(
+    'Remember: ONE delivery can be billed in MANY parts. Every part still points back to it.',
+    hl(300, 650, 1000, 80, F.yellow),
+    text(800, 706, 'ONE delivery → MANY bills', { size: 46, anchor: 'middle' }),
+  );
+});
+
+/* =========================================================== 11b · MANY-TO-ONE (p.7) */
+const many2one = board('many2one', 'Many-to-one (N : 1)', 'Book p.7', (st) => {
+  st('Many-to-One (N : 1): MANY deliveries are put into ONE bill.', title('Many-to-One (N : 1)', 'Book p.7'));
+  st(
+    'The shop delivers rice twice: on Monday (GRN 1) and on Thursday (GRN 2).',
+    rect(70, 180, 300, 150, { fill: F.green }),
+    text(220, 245, 'GRN 1', { size: 46, anchor: 'middle' }),
+    text(220, 295, 'Monday · ₹350', { size: 30, anchor: 'middle' }),
+    rect(70, 400, 300, 150, { fill: F.green }),
+    text(220, 465, 'GRN 2', { size: 46, anchor: 'middle' }),
+    text(220, 515, 'Thursday · ₹350', { size: 30, anchor: 'middle' }),
+  );
+  st(
+    'On Sunday it sends ONE weekly bill for both: ₹700.',
+    rect(520, 250, 300, 220, { fill: F.orange }),
+    text(670, 325, 'PI', { size: 52, anchor: 'middle' }),
+    text(670, 380, 'Sunday', { size: 32, anchor: 'middle' }),
+    text(670, 425, 'weekly ₹700', { size: 32, anchor: 'middle' }),
+    arrow([[375, 260], [512, 330]], { w: 6 }),
+    arrow([[375, 470], [512, 400]], { w: 6 }),
+  );
+  st(
+    'How is it linked? The weekly bill has one line per delivery, and each line has its own tag.',
+    rect(900, 180, 640, 400, { fill: F.paper }),
+    text(930, 240, 'How it is linked:', { size: 36, color: B }),
+    text(930, 310, '• Bill line 1 (Monday) →', { size: 32 }),
+    text(980, 355, 'tag: GRN 1', { size: 32, color: G }),
+    text(930, 425, '• Bill line 2 (Thursday) →', { size: 32 }),
+    text(980, 470, 'tag: GRN 2', { size: 32, color: G }),
+    text(930, 540, '• One bill, two tags', { size: 32 }),
+  );
+  st(
+    'Remember: MANY deliveries can go into ONE bill. Each line still points to its own delivery.',
+    hl(300, 650, 1000, 80, F.yellow),
+    text(800, 706, 'MANY deliveries → ONE bill', { size: 46, anchor: 'middle' }),
   );
 });
 
 /* =========================================================== 12 · MANY-TO-MANY (p.8) */
-const many = board('many', 'Many-to-many', 'Book p.8', (st) => {
-  st('Page 8: sometimes two deliveries and two bills ALL link to each other.', title('Many ↔ Many', 'Book p.8'));
+const many = board('many', 'Many-to-many (M : N)', 'Book p.8', (st) => {
+  st('Many-to-Many (M : N): many deliveries and many bills, all linked to each other.', title('Many-to-Many (M : N) — Cartesian', 'Book p.8', 70, 92, 1070));
   st(
-    'Two deliveries on the left, two bills on the right.',
-    tip('Deliveries', 'Two goods receipts.', chip(120, 200, 340, 100, 'GRN 1', '', F.green, 48), chip(120, 420, 340, 100, 'GRN 2', '', F.green, 48)),
-    tip('Bills', 'Two purchase invoices.', chip(1140, 200, 340, 100, 'PI 1', '', F.orange, 48), chip(1140, 420, 340, 100, 'PI 2', '', F.orange, 48)),
+    'Two deliveries of 10 bags each on the left. Two bills of 10 bags each on the right.',
+    chip(120, 170, 380, 100, 'GRN 1 · 10 bags', '', F.green, 40),
+    chip(120, 390, 380, 100, 'GRN 2 · 10 bags', '', F.green, 40),
+    chip(1100, 170, 380, 100, 'PI 1 · 10 bags', '', F.orange, 40),
+    chip(1100, 390, 380, 100, 'PI 2 · 10 bags', '', F.orange, 40),
   );
   st(
-    'Any delivery can feed any bill — the links criss-cross.',
-    tip(
-      'Criss-cross links',
-      'Each delivery feeds both bills, and each bill takes from both deliveries.',
-      arrow(
-        [
-          [465, 250],
-          [1132, 250],
-        ],
-        { color: B },
-      ),
-      arrow(
-        [
-          [465, 265],
-          [1132, 455],
-        ],
-        { color: B },
-      ),
-      arrow(
-        [
-          [465, 455],
-          [1132, 265],
-        ],
-        { color: B },
-      ),
-      arrow(
-        [
-          [465, 470],
-          [1132, 470],
-        ],
-        { color: B },
-      ),
-    ),
+    'Each bill takes 5 bags from EACH delivery — so the links criss-cross.',
+    arrow([[505, 220], [1092, 220]], { color: B }),
+    arrow([[505, 235], [1092, 425]], { color: B }),
+    arrow([[505, 425], [1092, 235]], { color: B }),
+    arrow([[505, 440], [1092, 440]], { color: B }),
   );
-  st('Push or pull — every document needs to be linked!', hl(420, 640, 760, 60, F.yellow), text(800, 682, 'Push or pull — every document gets linked!', { size: 40, anchor: 'middle' }));
+  st(
+    'Why “Cartesian”? Every delivery is paired with every bill: 2 deliveries × 2 bills = 4 links.',
+    text(800, 572, 'Cartesian: 2 deliveries × 2 bills = 4 links', { size: 40, color: P, anchor: 'middle' }),
+  );
+  const CX = [420, 670, 920];
+  st(
+    'The grid shows all 4 links: each cell is one link, with how many bags it carries.',
+    rect(420, 600, 250, 60, { fill: F.white, w: 3 }),
+    rect(670, 600, 250, 60, { fill: F.orange, w: 3 }),
+    rect(920, 600, 250, 60, { fill: F.orange, w: 3 }),
+    text(795, 642, 'PI 1', { size: 32, anchor: 'middle' }),
+    text(1045, 642, 'PI 2', { size: 32, anchor: 'middle' }),
+    [0, 1].flatMap((r) => {
+      const y = 660 + r * 60;
+      return [
+        ...rect(CX[0], y, 250, 60, { fill: F.green, w: 3 }),
+        ...text(CX[0] + 125, y + 42, `GRN ${r + 1}`, { size: 32, anchor: 'middle' }),
+        ...rect(CX[1], y, 250, 60, { fill: F.white, w: 3 }),
+        ...text(CX[1] + 125, y + 42, '5 bags', { size: 32, anchor: 'middle' }),
+        ...rect(CX[2], y, 250, 60, { fill: F.white, w: 3 }),
+        ...text(CX[2] + 125, y + 42, '5 bags', { size: 32, anchor: 'middle' }),
+      ];
+    }),
+  );
+  st('Push or pull — every document needs to be linked!', hl(1200, 640, 340, 140, F.yellow), text(1370, 700, 'Every link', { size: 36, anchor: 'middle' }), text(1370, 750, 'is recorded!', { size: 36, anchor: 'middle' }));
 });
 
 /* =========================================================== 13 · FULL CYCLE (p.9) */
@@ -827,10 +878,10 @@ const cycle = board('cycle', 'The full cycle', 'Book p.9', (st) => {
 /* =========================================================== 14 · RECAP */
 const RECAP: [string, string][] = [
   ['One form, many papers — papers copy each other', 'Boards 2–3 · Source Document vs Document (p.4) and inheritance (p.5).'],
-  ['Purchase cycle: PR → PQ → PO → GRN → PI → PV', 'Boards 4–5 · The 6 papers the home (buyer) writes.'],
-  ['Sales cycle: SE → SQ → SO → DO → SI → RV', 'Boards 6–7 · The 6 papers the grocery (seller) writes.'],
-  ['Every home paper has a grocery twin', 'Boards 8–9 · Twin papers and the full cycle: both books match.'],
-  ['Link later, but check stock now', 'Boards 10–16 · How papers link, and the linking rules (p.5–8).'],
+  ['Purchase cycle: PR → PQ → PO → GRN → PI → PV', 'Boards 4–11 · The buying story: the 6 papers the home (buyer) writes.'],
+  ['Sales cycle: SE → SQ → SO → DO → SI → RV', 'Boards 12–19 · The selling story: the 6 papers the grocery (seller) writes.'],
+  ['Every home paper has a reciprocal grocery paper', 'Boards 20–21 · Reciprocal papers and the full cycle: both books match.'],
+  ['Link later, but check stock now', 'Boards 22–30 · How papers link, and the linking rules (p.5–8).'],
 ];
 const recap = board('recap', 'Remember', 'Summary', (st) => {
   st('Five things to remember from this topic.', title('Remember', 'Summary', 70, 92, 330));
@@ -838,8 +889,8 @@ const recap = board('recap', 'Remember', 'Summary', (st) => {
   st('Thank you! Any questions?', bag(1370, 870, 1.2), hl(560, 800, 520, 76, F.yellow), text(820, 860, 'Thank you!', { size: 72, color: R, anchor: 'middle' }));
 });
 
-const { purchase1, purchase2, sales1, sales2 } = CYCLE_BOARDS;
-const ERP_BOARDS: Board[] = [cover, mould, copy, purchase1, purchase2, sales1, sales2, twins, cycle, chain, rules1, rules2, rules3, tag, messy, many, recap].map((x) => ({ ...x, topic: 2 }));
+const { purchase1, purchase2, sales1, sales2, BUY_STORY, SELL_STORY } = CYCLE_BOARDS;
+const ERP_BOARDS: Board[] = [cover, mould, copy, ...BUY_STORY, purchase1, purchase2, ...SELL_STORY, sales1, sales2, twins, cycle, chain, rules1, rules2, rules3, links, tag, one2many, many2one, many, recap].map((x) => ({ ...x, topic: 2 }));
 
 /** the two separate topics of the seminar */
 export const TOPICS = [
