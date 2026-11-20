@@ -880,10 +880,10 @@ const cycle = board('cycle', 'The full cycle', 'Book p.9', (st) => {
 /* =========================================================== 14 · RECAP */
 const RECAP: [string, string][] = [
   ['One form, many papers — papers copy each other', 'Boards 2–3 · Source Document vs Document (p.4) and inheritance (p.5).'],
-  ['Purchase cycle: PR → PQ → PO → GRN → PI → PV', 'Boards 4–9 · The buying story: the 6 papers the home (buyer) writes.'],
-  ['Sales cycle: SE → SQ → SO → DO → SI → RV', 'Boards 10–15 · The selling story: the 6 papers the grocery (seller) writes.'],
-  ['Every home paper has a reciprocal grocery paper', 'Boards 16–17 · Reciprocal papers and the full cycle: both books match.'],
-  ['Link later, but check stock now', 'Boards 18–25 · The sales chain, the linking rules and cardinality (p.5–8).'],
+  ['Purchase cycle: PR → PQ → PO → GRN → PI → PV', 'Boards 4–10 · The buying story and the purchase cycle: the 6 papers the home (buyer) writes.'],
+  ['Sales cycle: SE → SQ → SO → DO → SI → RV', 'Boards 11–17 · The selling story and the sales cycle: the 6 papers the grocery (seller) writes.'],
+  ['Every home paper has a reciprocal grocery paper', 'Boards 18–19 · Reciprocal papers and the full cycle: both books match.'],
+  ['Link later, but check stock now', 'Boards 20–27 · The sales chain, the linking rules and cardinality (p.5–8).'],
 ];
 const recap = board('recap', 'Remember', 'Summary', (st) => {
   st('Five things to remember from this topic.', title('Remember', 'Summary', 70, 92, 330));
@@ -891,8 +891,8 @@ const recap = board('recap', 'Remember', 'Summary', (st) => {
   st('Thank you! Any questions?', bag(1370, 870, 1.2), hl(560, 800, 520, 76, F.yellow), text(820, 860, 'Thank you!', { size: 72, color: R, anchor: 'middle' }));
 });
 
-const { BUY_STORY, SELL_STORY } = CYCLE_BOARDS;
-const ERP_BOARDS: Board[] = [cover, mould, copy, ...BUY_STORY, ...SELL_STORY, twins, cycle, chain, rules1, rules2, rules3, tag, one2many, many2one, many, recap].map((x) => ({ ...x, topic: 2 }));
+const { BUY_STORY, SELL_STORY, BUY_CYCLE, SELL_CYCLE } = CYCLE_BOARDS;
+const ERP_BOARDS: Board[] = [cover, mould, copy, ...BUY_STORY, BUY_CYCLE, ...SELL_STORY, SELL_CYCLE, twins, cycle, chain, rules1, rules2, rules3, tag, one2many, many2one, many, recap].map((x) => ({ ...x, topic: 2 }));
 
 /** the two separate topics of the seminar */
 export const TOPICS = [

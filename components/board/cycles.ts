@@ -314,4 +314,70 @@ const SELL_STORY = storyBoards('sell', 'Selling story', 'shop', [
   },
 ]);
 
-export const CYCLE_BOARDS = { BUY_STORY, SELL_STORY };
+/* =========================================================== CYCLE AT A GLANCE (one page, drawn once) */
+// The 6 papers sit around a loop; the last paper leads back to the first (next time we need rice).
+const LOOP: [number, number][] = [
+  [800, 195],
+  [1290, 350],
+  [1290, 650],
+  [800, 805],
+  [310, 650],
+  [310, 350],
+];
+const LINKS: [[number, number], [number, number]][] = [
+  [[970, 215], [1180, 295]],
+  [[1290, 404], [1290, 596]],
+  [[1180, 705], [970, 785]],
+  [[630, 785], [420, 705]],
+  [[310, 596], [310, 404]],
+  [[420, 295], [630, 215]],
+];
+function cycleBoard(id: string, label: string, side: 'home' | 'shop', papers: [string, string][], say: string): Board {
+  const fill = side === 'home' ? F.orange : F.blue;
+  const ink = side === 'home' ? O : B;
+  return board(id, label, 'Book p.6', (st) => {
+    st(
+      say,
+      title(side === 'home' ? 'Purchase cycle — the home BUYS' : 'Sales cycle — the grocery SELLS', 'Book p.6', 70, 92, 1000),
+      ...LINKS.map(([a, b], i) => arrow([a, b], { color: i === 5 ? G : ink, w: 6, dash: i === 5 })),
+      ...papers.map(([code, full], i) => {
+        const [x, y] = LOOP[i];
+        return [...rect(x - 165, y - 50, 330, 100, { fill }), ...text(x, y - 4, `${i + 1}. ${code}`, { size: 42, anchor: 'middle' }), ...text(x, y + 34, full, { size: 26, anchor: 'middle' })];
+      }),
+      side === 'home' ? house(800, 470, 0.7) : shop(800, 470, 0.7),
+      text(800, 548, side === 'home' ? 'HOME buys' : 'GROCERY sells', { size: 44, color: ink, anchor: 'middle' }),
+      text(800, 598, '1 bag rice · ₹350', { size: 34, anchor: 'middle' }),
+      text(470, 232, 'next time', { size: 26, color: G, anchor: 'middle' }),
+    );
+  });
+}
+const BUY_CYCLE = cycleBoard(
+  'buy-cycle',
+  'Purchase cycle (all 6 papers)',
+  'home',
+  [
+    ['PR', 'Purchase Requisition'],
+    ['PQ', 'Purchase Quotation'],
+    ['PO', 'Purchase Order'],
+    ['GRN', 'Goods Receipt Note'],
+    ['PI', 'Purchase Invoice'],
+    ['PV', 'Payment Voucher'],
+  ],
+  'The whole PURCHASE cycle on one page: need, price, order, receive, bill, pay — PR, PQ, PO, GRN, PI, PV. When the jar is empty again, it starts again.',
+);
+const SELL_CYCLE = cycleBoard(
+  'sell-cycle',
+  'Sales cycle (all 6 papers)',
+  'shop',
+  [
+    ['SE', 'Sales Enquiry'],
+    ['SQ', 'Sales Quotation'],
+    ['SO', 'Sales Order'],
+    ['DO', 'Delivery Order'],
+    ['SI', 'Sales Invoice'],
+    ['RV', 'Receipt Voucher'],
+  ],
+  'The whole SALES cycle on one page: question, price, order, deliver, bill, collect — SE, SQ, SO, DO, SI, RV. The next customer starts it again.',
+);
+
+export const CYCLE_BOARDS = { BUY_STORY, SELL_STORY, BUY_CYCLE, SELL_CYCLE };
