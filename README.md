@@ -31,10 +31,10 @@ Each topic has its own cover, its own examples, its own numbering and progress b
 
 **Topic 2 — Business Process** (FactsERP Book 2, pages 3–9; one example: a home buys one 5 kg bag of rice for ₹350 from a grocery):
 1 Start · 2 Mould → Bricks · 3 The magic copy ·
-4–9 **Buying story** (Mom at home, one board per paper): PR → PQ → PO → GRN → PI → PV · 10–11 Purchase cycle at a glance ·
-12–17 **Selling story** (Ravi at the grocery): SE → SQ → SO → DO → SI → RV · 18–19 Sales cycle at a glance ·
-20 Reciprocal papers · 21 The full 10-paper cycle · 22 The sales chain · 23–24 Why link separately (rules 1–7) · 25 Rules 8–10 ·
-26 Cardinality: 4 kinds of links · 27 Cardinality 1 : 1 · 28 Cardinality 1 : N · 29 Cardinality N : 1 · 30 Cardinality M : N (Cartesian) · 31 Remember
+4–9 **Buying story** (Mom at home, one board per paper): PR → PQ → PO → GRN → PI → PV ·
+10–15 **Selling story** (Ravi at the grocery): SE → SQ → SO → DO → SI → RV ·
+16 Reciprocal papers · 17 The full 10-paper cycle · 18 The sales chain (point at any box for a detail card) · 19–20 Why link separately (rules 1–7) · 21 Rules 8–10 ·
+22 Cardinality 1 : 1 · 23 Cardinality 1 : N · 24 Cardinality N : 1 · 25 Cardinality M : N (Cartesian) · 26 Remember
 
 A board can be opened directly by its overall number: `http://localhost:3000/#5` (board 5) or `#5.3` (board 5, step 3). Topic 2 starts at `#15`.
 

@@ -27,6 +27,8 @@ import {
   text,
   tick,
   tip,
+  info,
+  type Tip,
   title,
   type Board,
   type Item,
@@ -201,6 +203,7 @@ const copy = board('copy', 'The magic copy', 'Book p.5', (st) => {
 });
 
 /* =========================================================== 5 · THE SALES CHAIN (p.5 diagram) */
+// Point at any box (or a column name) to open a card: what it is, an example, and its cases.
 type N = [string, number, number, number, string];
 const CH: Record<string, N> = {
   contract: ['Contract', 400, 290, 170, F.grey],
@@ -212,62 +215,119 @@ const CH: Record<string, N> = {
   delivery: ['Delivery', 875, 460, 150, F.orange],
   goods: ['Goods issue', 1075, 300, 180, F.orange],
   transfer: ['Transfer', 1075, 460, 170, F.orange],
-  ship: ['Shipment', 1075, 620, 180, F.orange],
+  ship: ['Shipment', 1075, 600, 180, F.orange],
   invoice: ['Invoice', 1300, 460, 150, F.green],
   stock: ['Stock a/c', 1480, 300, 160, F.yellow],
   ar: ['Receivable', 1480, 460, 160, F.yellow],
 };
-const CTIP: Record<string, [string, string]> = {
-  contract: ['Contract', 'A long-term deal agreed before orders come in.'],
-  contact: ['Contact', 'The first touch with a customer.'],
-  inquiry: ['Inquiry', 'The customer asks: “do you have rice?”'],
-  quotation: ['Quotation', 'The shop offers a price.'],
-  sched: ['Scheduling agreement', 'An agreement to deliver regularly on fixed dates.'],
-  so: ['Sales order', 'The confirmed order. Everything before feeds it; everything after follows it.'],
-  delivery: ['Delivery', 'The goods leave for the customer.'],
-  goods: ['Goods issue', 'Stock goes out of the store — it updates the stock account.'],
-  transfer: ['Transfer order', 'Moves goods between stores or locations.'],
-  ship: ['Shipment', 'The goods are transported to the customer.'],
-  invoice: ['Invoice', 'The bill to the customer.'],
-  stock: ['Stock account', 'The accounting record of how much stock is worth.'],
-  ar: ['Accounts receivable', 'What customers still owe the shop.'],
+const CTIP: Record<string, Tip> = {
+  contact: {
+    title: 'Contact',
+    text: 'The first touch with a customer — before they ask for anything.',
+    ex: 'A new family moves in nearby and walks into the grocery.',
+    cases: ['A walk-in visit', 'A phone call or WhatsApp message', 'A visit by the shop’s salesman'],
+  },
+  inquiry: {
+    title: 'Inquiry (Sales Enquiry · SE)',
+    text: 'The customer asks a question about an item. The shop writes it down so no customer is forgotten.',
+    ex: '“Do you have 5 kg rice?”',
+    cases: ['Is the item in stock?', 'What is the price?', 'When can you deliver?'],
+  },
+  quotation: {
+    title: 'Quotation (Sales Quotation · SQ)',
+    text: 'The shop offers a price in writing. The customer can say yes or no.',
+    ex: '“5 kg rice = ₹350, valid this week.”',
+    cases: ['Price for each item', 'Any discount offered', 'Valid until a date'],
+  },
+  contract: {
+    title: 'Contract',
+    text: 'A long-term deal agreed BEFORE the orders come. Each later order follows its price and terms.',
+    ex: 'A hotel agrees to buy rice at ₹340 a bag for one full year.',
+    cases: ['Fixed price for a period', 'Total quantity agreed', 'Orders are made under the contract'],
+  },
+  sched: {
+    title: 'Scheduling agreement',
+    text: 'An agreement to deliver again and again on fixed dates — no new order each time.',
+    ex: 'One 5 kg bag every Monday for the office canteen.',
+    cases: ['Fixed dates (weekly / monthly)', 'Fixed quantity each time', 'Runs until the agreement ends'],
+  },
+  so: {
+    title: 'Sales Order (SO)',
+    text: 'The confirmed order: what is sold, to whom, at what price. Everything before feeds it; everything after follows it.',
+    ex: 'Home: 1 bag rice, ₹350, deliver today.',
+    cases: ['Made from a quotation', 'Or made under a contract', 'Or made from a schedule'],
+  },
+  delivery: {
+    title: 'Delivery (Delivery Order · DO)',
+    text: 'The paper that says: these goods go out to this customer.',
+    ex: '1 bag of rice goes out to the home.',
+    cases: ['Full delivery', 'Part delivery — the rest comes later', 'Many deliveries for one order'],
+  },
+  goods: {
+    title: 'Goods issue',
+    text: 'The goods leave the store, so the stock goes DOWN — in quantity and in value.',
+    ex: 'Rice on the shelf: 10 bags → 9 bags.',
+    cases: ['Stock quantity goes down', 'Stock value goes down', 'The stock account is updated'],
+  },
+  transfer: {
+    title: 'Transfer order',
+    text: 'Moves goods between the shop’s OWN places — not to a customer. No sale happens.',
+    ex: 'Move 5 bags from the godown to the shop shelf.',
+    cases: ['Godown → shop', 'Branch → branch', 'One shelf → another shelf'],
+  },
+  ship: {
+    title: 'Shipment',
+    text: 'The goods are carried to the customer.',
+    ex: 'The delivery boy takes the bag to the home on the scooter.',
+    cases: ['Own delivery (scooter, van)', 'A courier or transporter', 'The customer picks it up'],
+  },
+  invoice: {
+    title: 'Invoice (Sales Invoice · SI)',
+    text: 'The bill the shop gives the customer: how much to pay.',
+    ex: 'Bill no. 101: rice 5 kg = ₹350.',
+    cases: ['One bill for one delivery', 'One bill for many deliveries', 'Tax added on the bill'],
+  },
+  stock: {
+    title: 'Stock account',
+    text: 'The accounts record of how much the goods in the shop are worth.',
+    ex: 'One bag sold → the stock is worth one bag less.',
+    cases: ['Updated by the goods issue', 'Shows the value of goods in hand'],
+  },
+  ar: {
+    title: 'Receivable (Accounts receivable)',
+    text: 'Money the customer still owes the shop.',
+    ex: 'The home owes ₹350 until it pays.',
+    cases: ['Goes UP when the bill is made', 'Goes DOWN when the money comes in (RV)', 'Old dues are followed up'],
+  },
 };
+const COLS: [string, number, Tip][] = [
+  ['Pre-sales', 270, { title: 'Pre-sales', text: 'Everything that happens BEFORE the customer orders.', cases: ['A customer gets in touch', 'Asks a question (inquiry)', 'Gets a price (quotation)', 'Or a long deal: contract / schedule'] }],
+  ['Order', 665, { title: 'Order processing', text: 'The customer says YES — the order is confirmed in a Sales Order.', cases: ['Item, quantity and price fixed', 'Delivery date agreed'] }],
+  ['Fulfilment', 975, { title: 'Order fulfilment', text: 'Getting the goods out of the shop and to the customer.', cases: ['Delivery paper made', 'Stock taken out (goods issue)', 'Goods moved (transfer) or carried (shipment)'] }],
+  ['Billing', 1390, { title: 'Billing', text: 'Asking for the money and updating the accounts.', cases: ['The bill (invoice) is made', 'What the customer owes goes up', 'The stock value is updated'] }],
+];
 const node = (k: string) => {
   const [t, x, y, w, f] = CH[k];
-  return tip(CTIP[k][0], CTIP[k][1], rect(x - w / 2, y - 36, w, 72, { fill: f, w: 4 }), text(x, y + 11, t, { size: 30, anchor: 'middle' }));
+  return info(CTIP[k], rect(x - w / 2, y - 36, w, 72, { fill: f, w: 4 }), text(x, y + 11, t, { size: 30, anchor: 'middle' }));
 };
 const right = (k: string): [number, number] => [CH[k][1] + CH[k][3] / 2, CH[k][2]];
 const left = (k: string): [number, number] => [CH[k][1] - CH[k][3] / 2, CH[k][2]];
 const link = (a: string, b: string) => arrow([right(a), left(b)], { w: 5 });
+const DIV = [560, 770, 1190];
 
 const chain = board('chain', 'The sales chain', 'Book p.5', (st) => {
   st(
-    'Now: how the papers LINK to each other. This is the whole sales chain from page 5, in four parts.',
+    'Now: how the papers LINK to each other. This is the whole sales chain from page 5, in four parts. Point at any box to see what it means.',
     title('The sales chain', 'Book p.5'),
-    tip('Pre-sales', 'Getting in touch and giving a price, before any order exists.', text(270, 200, 'Pre-sales', { size: 40, anchor: 'middle' })),
-    tip('Order processing', 'The order is confirmed.', text(665, 200, 'Order', { size: 40, anchor: 'middle' })),
-    tip('Order fulfilment', 'Moving the goods to the customer.', text(975, 200, 'Fulfilment', { size: 40, anchor: 'middle' })),
-    tip('Billing', 'Billing the customer and updating the accounts.', text(1390, 200, 'Billing', { size: 40, anchor: 'middle' })),
-    dashed(
-      [
-        [560, 170],
-        [560, 850],
-      ],
-      { color: '#5f6b7a', w: 4 },
-    ),
-    dashed(
-      [
-        [770, 170],
-        [770, 850],
-      ],
-      { color: '#5f6b7a', w: 4 },
-    ),
-    dashed(
-      [
-        [1190, 170],
-        [1190, 850],
-      ],
-      { color: '#5f6b7a', w: 4 },
+    ...COLS.map(([name, x, t]) => info(t, text(x, 200, name, { size: 40, anchor: 'middle' }))),
+    ...DIV.map((x) =>
+      dashed(
+        [
+          [x, 170],
+          [x, 760],
+        ],
+        { color: '#5f6b7a', w: 4 },
+      ),
     ),
   );
   st(
@@ -298,7 +358,7 @@ const chain = board('chain', 'The sales chain', 'Book p.5', (st) => {
     arrow(
       [
         [875, 496],
-        [1090, 880],
+        [1090, 950],
         [1300, 496],
       ],
       { w: 5 },
@@ -310,163 +370,153 @@ const chain = board('chain', 'The sales chain', 'Book p.5', (st) => {
   );
   st(
     'These links are stored separately, so when things happen out of order, the chain bends but never breaks.',
-    tip('Separate links', 'Each link is stored on its own, so a step can happen late or out of order without breaking anything.', hl(470, 795, 660, 66, F.yellow), text(800, 842, 'Links bend — they never break', { size: 46, anchor: 'middle' })),
+    info(
+      { title: 'Links bend — they never break', text: 'Every link is stored on its own. Steps can come late or out of order, and nothing breaks.', cases: ['Bill made before the delivery? OK', 'A step skipped? OK', 'Link fixed later? OK'] },
+      hl(470, 795, 660, 66, F.yellow),
+      text(800, 842, 'Links bend — they never break', { size: 46, anchor: 'middle' }),
+    ),
   );
 });
+chain.hover = true;
+
+/* =========================================================== RULE CARDS: a drawing + the plain meaning */
+/** the "in simple words" box at the bottom of a rule card */
+const meaning = (x: number, y: number, w: number, lines: string[], size = 30, gap = 44): Item[] => [
+  ...rect(x, y, w, lines.length * gap + 22, { fill: '#fff9db', w: 3 }),
+  ...lines.flatMap((l, i) => text(x + 18, y + 10 + size + i * gap, l, { size })),
+];
 
 /* =========================================================== 6 · RULES 1–4 (p.5) */
 const rules1 = board('rules1', 'Linking rules 1–4', 'Book p.5', (st) => {
-  st('FactsERP links papers as a separate step, so a busy shop never has to stop. Here are the 7 reasons.', title('Why link separately? (1 – 4)', 'Book p.5'));
+  st('FactsERP links papers as a separate step, so a busy shop never has to stop. Here are the reasons — each card says it in simple words.', title('Why link separately? (1 – 4)', 'Book p.5'));
   st(
     'Rule 1 — The bag arrives while you are busy cooking. Save the delivery now, link it to the order later.',
-    tip(
-      'Rule 1 · Works without a link',
-      'Linking never blocks normal data entry. The program works without the link; you can link later.',
-      panel(60, 140, 720, 350),
-      text(85, 195, '1. Works without a link', { size: 40, color: R }),
-      house(170, 440, 0.55),
-      bag(285, 440, 0.5),
-      chip(360, 235, 390, 76, 'GRN', 'saved ✓', F.green, 36),
-      rect(360, 345, 390, 76, { fill: F.white }),
-      text(555, 395, 'PO · link later', { size: 36, color: O, anchor: 'middle' }),
-      dashed(
-        [
-          [555, 311],
-          [555, 345],
-        ],
-        { color: O, w: 5, dash: 8, gap: 8 },
-      ),
+    panel(60, 140, 720, 350),
+    text(85, 195, '1. Works without a link', { size: 40, color: R }),
+    house(150, 360, 0.5),
+    bag(255, 360, 0.45),
+    chip(340, 220, 410, 64, 'GRN', 'saved ✓', F.green, 34),
+    dashed(
+      [
+        [545, 286],
+        [545, 300],
+      ],
+      { color: O, w: 5, dash: 6, gap: 6 },
     ),
+    rect(340, 300, 410, 64, { fill: F.white }),
+    text(545, 344, 'PO · link later', { size: 34, color: O, anchor: 'middle' }),
+    meaning(75, 378, 690, ['Busy? Save the delivery (GRN) now,', 'and link it to the order (PO) later.']),
   );
   st(
     'Rule 2 — Linking can wait, but the stock check cannot. You can’t sell rice you don’t have.',
-    tip(
-      'Rule 2 · Regularise later, check stock now',
-      'Links can be fixed later, but enough data is captured at once — and the negative-stock check happens immediately.',
-      panel(820, 140, 720, 350),
-      text(845, 195, '2. Link later, check stock now', { size: 40, color: R }),
-      rect(860, 240, 240, 170, { fill: F.white }),
-      line(860, 297, 1100, 297, { w: 4 }),
-      line(860, 354, 1100, 354, { w: 4 }),
-      text(980, 460, 'shelf: 0 kg', { size: 36, color: R, anchor: 'middle' }),
-      text(1150, 290, 'Sell 5 kg?', { size: 40 }),
-      cross(1240, 370, 44),
-      text(1310, 390, 'BLOCKED', { size: 42, color: R }),
-    ),
+    panel(820, 140, 720, 350),
+    text(845, 195, '2. Link later, check stock now', { size: 40, color: R }),
+    rect(860, 222, 200, 110, { fill: F.white }),
+    line(860, 259, 1060, 259, { w: 4 }),
+    line(860, 296, 1060, 296, { w: 4 }),
+    text(960, 366, 'shelf: 0 kg', { size: 30, color: R, anchor: 'middle' }),
+    text(1110, 262, 'Sell 5 kg?', { size: 38 }),
+    cross(1150, 322, 26),
+    text(1200, 338, 'BLOCKED', { size: 40, color: R }),
+    meaning(835, 378, 690, ['Linking can wait — the stock check cannot.', 'No rice on the shelf? You can’t sell it.']),
   );
   st(
     'Rule 3 — Two orders and two deliveries can be linked in any mix.',
-    tip(
-      'Rule 3 · Many-to-many',
-      'Many orders can link to many deliveries. Separate linking handles this best.',
-      panel(60, 520, 720, 350),
-      text(85, 575, '3. Many-to-many', { size: 40, color: R }),
-      chip(100, 620, 200, 70, 'PO 1', '', F.orange, 38),
-      chip(100, 760, 200, 70, 'PO 2', '', F.orange, 38),
-      chip(520, 620, 220, 70, 'GRN 1', '', F.green, 38),
-      chip(520, 760, 220, 70, 'GRN 2', '', F.green, 38),
-      arrow([
-        [305, 655],
-        [512, 655],
-      ]),
-      arrow([
-        [305, 665],
-        [512, 785],
-      ]),
-      arrow([
-        [305, 785],
-        [512, 665],
-      ]),
-      arrow([
-        [305, 795],
-        [512, 795],
-      ]),
-    ),
+    panel(60, 520, 720, 350),
+    text(85, 575, '3. Many-to-many', { size: 40, color: R }),
+    chip(100, 600, 200, 64, 'PO 1', '', F.orange, 36),
+    chip(100, 685, 200, 64, 'PO 2', '', F.orange, 36),
+    chip(520, 600, 220, 64, 'GRN 1', '', F.green, 36),
+    chip(520, 685, 220, 64, 'GRN 2', '', F.green, 36),
+    arrow([
+      [305, 627],
+      [512, 627],
+    ]),
+    arrow([
+      [305, 637],
+      [512, 712],
+    ]),
+    arrow([
+      [305, 712],
+      [512, 637],
+    ]),
+    arrow([
+      [305, 722],
+      [512, 722],
+    ]),
+    meaning(75, 758, 690, ['Any order can link to any delivery —', 'in any mix (Cardinality M : N, later).']),
   );
   st(
     'Rule 4 — Linked the wrong delivery? Just reset the link. The bill itself is never changed.',
-    tip(
-      'Rule 4 · Reset anytime',
-      'A link can be reset at any time without editing the original document.',
-      panel(820, 520, 720, 350),
-      text(845, 575, '4. Reset anytime', { size: 40, color: R }),
-      chip(860, 680, 200, 72, 'PI', 'bill', F.orange, 38),
-      chip(1290, 610, 220, 70, 'GRN', 'Mon', F.green, 36),
-      chip(1290, 760, 220, 70, 'GRN', 'Tue', F.green, 36),
-      line(1065, 725, 1282, 790, { color: R, w: 6 }),
-      cross(1175, 757, 24),
-      arrow(
-        [
-          [1065, 705],
-          [1282, 645],
-        ],
-        { color: G, w: 7 },
-      ),
-      text(860, 840, 'bill not edited ✓', { size: 34, color: G }),
+    panel(820, 520, 720, 350),
+    text(845, 575, '4. Reset anytime', { size: 40, color: R }),
+    chip(860, 640, 200, 72, 'PI', 'bill', F.orange, 38),
+    chip(1290, 600, 220, 64, 'GRN', 'Mon', F.green, 34),
+    chip(1290, 685, 220, 64, 'GRN', 'Tue', F.green, 34),
+    line(1065, 690, 1282, 717, { color: R, w: 6 }),
+    cross(1173, 703, 20),
+    arrow(
+      [
+        [1065, 660],
+        [1282, 632],
+      ],
+      { color: G, w: 7 },
     ),
+    meaning(835, 758, 690, ['Linked the wrong delivery? Reset the link.', 'The bill itself is never changed.']),
   );
 });
 
 /* =========================================================== 7 · RULES 5–7 (p.5) */
 const rules2 = board('rules2', 'Linking rules 5–7', 'Book p.5', (st) => {
-  st('Three more reasons from page 5.', title('Why link separately? (5 – 7)', 'Book p.5'));
+  st('Three more reasons from page 5 — each card says it in simple words.', title('Why link separately? (5 – 7)', 'Book p.5'));
   st(
     'Rule 5 — FactsERP links papers by itself when the party and the item match. You can also lock a link so it never moves.',
-    tip(
-      'Rule 5 · Automatic linking + lock',
-      'Documents are linked automatically by party and stock code. Any automatic link can be locked.',
-      panel(50, 140, 480, 730),
-      text(70, 195, '5. Auto-link + lock', { size: 40, color: R }),
-      rect(75, 240, 200, 190, { fill: F.green }),
-      text(175, 290, 'GRN', { size: 42, anchor: 'middle' }),
-      text(175, 345, 'FreshMart', { size: 30, anchor: 'middle' }),
-      text(175, 395, '5 kg rice', { size: 30, anchor: 'middle' }),
-      rect(305, 240, 200, 190, { fill: F.orange }),
-      text(405, 290, 'PI', { size: 42, anchor: 'middle' }),
-      text(405, 345, 'FreshMart', { size: 30, anchor: 'middle' }),
-      text(405, 395, '5 kg rice', { size: 30, anchor: 'middle' }),
-      text(290, 490, 'match → auto-link ✓', { size: 34, color: G, anchor: 'middle' }),
-      lock(290, 600, 1.3),
-      text(290, 770, 'locked link', { size: 36, anchor: 'middle' }),
-      text(290, 815, 'never auto-moved', { size: 32, anchor: 'middle' }),
-    ),
+    panel(50, 140, 480, 730),
+    text(70, 195, '5. Auto-link + lock', { size: 40, color: R }),
+    rect(75, 225, 200, 170, { fill: F.green }),
+    text(175, 272, 'GRN', { size: 42, anchor: 'middle' }),
+    text(175, 322, 'FreshMart', { size: 30, anchor: 'middle' }),
+    text(175, 367, '5 kg rice', { size: 30, anchor: 'middle' }),
+    rect(305, 225, 200, 170, { fill: F.orange }),
+    text(405, 272, 'PI', { size: 42, anchor: 'middle' }),
+    text(405, 322, 'FreshMart', { size: 30, anchor: 'middle' }),
+    text(405, 367, '5 kg rice', { size: 30, anchor: 'middle' }),
+    text(290, 450, 'match → auto-link ✓', { size: 34, color: G, anchor: 'middle' }),
+    lock(140, 540, 0.85),
+    text(200, 548, 'locked link =', { size: 32 }),
+    text(200, 592, 'never moved', { size: 32 }),
+    meaning(65, 640, 450, ['Same shop + same item?', 'FactsERP links the papers', 'by itself — no typing.', 'A locked link never moves.']),
   );
   st(
     'Rule 6 — You ordered 5 kg but only 3 kg came. The system warns you at once.',
-    tip(
-      'Rule 6 · Exceptions are notified',
-      'When something does not match — like a short delivery — FactsERP flags it.',
-      panel(560, 140, 480, 730),
-      text(580, 195, '6. Exceptions flagged', { size: 40, color: R }),
-      text(600, 290, 'Ordered: 5 kg', { size: 42 }),
-      text(600, 360, 'Received: 3 kg', { size: 42 }),
-      poly(
-        [
-          [800, 440],
-          [900, 620],
-          [700, 620],
-        ],
-        { fill: F.yellow, w: 6 },
-      ),
-      text(800, 600, '!', { size: 90, anchor: 'middle' }),
-      text(800, 710, '2 kg short!', { size: 54, color: R, anchor: 'middle' }),
+    panel(560, 140, 480, 730),
+    text(580, 195, '6. Exceptions flagged', { size: 40, color: R }),
+    text(600, 275, 'Ordered: 5 kg', { size: 40 }),
+    text(600, 335, 'Received: 3 kg', { size: 40 }),
+    poly(
+      [
+        [800, 375],
+        [880, 515],
+        [720, 515],
+      ],
+      { fill: F.yellow, w: 6 },
     ),
+    text(800, 500, '!', { size: 72, anchor: 'middle' }),
+    text(800, 590, '2 kg short!', { size: 48, color: R, anchor: 'middle' }),
+    meaning(575, 640, 450, ['Ordered 5 kg, got only 3?', 'FactsERP warns you at', 'once — so the mistake is', 'caught before you pay.']),
   );
   st(
     'Rule 7 — The sugar never comes. Force-close the order so it doesn’t stay open forever.',
-    tip(
-      'Rule 7 · Easy force closing',
-      'Close an order that will never be completed by allocating the document to itself.',
-      panel(1070, 140, 480, 730),
-      text(1090, 195, '7. Easy force close', { size: 40, color: R }),
-      text(1110, 290, 'Order #12', { size: 42, color: B }),
-      text(1110, 365, '5 kg rice ✓', { size: 40, color: G }),
-      text(1110, 435, '2 kg sugar …', { size: 40 }),
-      line(1100, 422, 1420, 422, { color: R, w: 6 }),
-      rect(1120, 520, 380, 110, { color: R, w: 7, fill: '#ffe3e3' }),
-      text(1310, 595, 'CLOSED', { size: 64, color: R, anchor: 'middle' }),
-      text(1310, 700, 'linked to itself', { size: 34, anchor: 'middle' }),
-    ),
+    panel(1070, 140, 480, 730),
+    text(1090, 195, '7. Easy force close', { size: 40, color: R }),
+    text(1110, 275, 'Order #12', { size: 40, color: B }),
+    text(1110, 335, '5 kg rice ✓', { size: 38, color: G }),
+    text(1110, 395, '2 kg sugar …', { size: 38 }),
+    line(1100, 383, 1420, 383, { color: R, w: 6 }),
+    rect(1120, 430, 380, 100, { color: R, w: 7, fill: '#ffe3e3' }),
+    text(1310, 500, 'CLOSED', { size: 60, color: R, anchor: 'middle' }),
+    text(1310, 590, 'linked to itself', { size: 32, anchor: 'middle' }),
+    meaning(1085, 640, 450, ['The sugar will never come?', 'Force-close the order.', 'It stops waiting, and the', 'open-order list stays clean.']),
   );
 });
 
@@ -540,70 +590,60 @@ const twins = board('twins', 'Reciprocal papers', 'Book p.6', (st) => {
 
 /* =========================================================== 9 · RULES 8–10 (p.6) */
 const rules3 = board('rules3', 'Rules 8–10', 'Book p.6', (st) => {
-  st('Three more rules from page 6.', title('Rules 8 – 10', 'Book p.6'));
+  st('Three more rules from page 6 — each card says it in simple words.', title('Rules 8 – 10', 'Book p.6'));
   st(
     'Rule 8 — A walk-in customer pays cash and takes the bag at once, so we skip the DO. Allowed — but not recommended.',
-    tip(
-      'Rule 8 · Skipping a step',
-      'Jumping over a step (here the DO) is not recommended, but may be allowed for convenience.',
-      panel(50, 140, 480, 730),
-      text(70, 195, '8. Skipping a step', { size: 40, color: R }),
-      chip(70, 470, 130, 76, 'SO', '', F.blue, 40),
-      chip(225, 470, 130, 76, 'DO', '', F.grey, 40),
-      chip(380, 470, 130, 76, 'SI', '', F.blue, 40),
-      cross(290, 508, 30),
-      arrow(
-        [
-          [135, 462],
-          [290, 300],
-          [445, 462],
-        ],
-        { color: G, w: 7 },
-      ),
-      text(290, 290, 'walk-in, cash', { size: 34, anchor: 'middle' }),
-      text(290, 640, 'allowed …', { size: 38, anchor: 'middle' }),
-      text(290, 700, 'not recommended', { size: 38, color: R, anchor: 'middle' }),
+    panel(50, 140, 480, 730),
+    text(70, 195, '8. Skipping a step', { size: 40, color: R }),
+    text(290, 335, 'walk-in, cash', { size: 34, anchor: 'middle' }),
+    arrow(
+      [
+        [135, 432],
+        [290, 290],
+        [445, 432],
+      ],
+      { color: G, w: 7 },
     ),
+    chip(70, 440, 130, 76, 'SO', '', F.blue, 40),
+    chip(225, 440, 130, 76, 'DO', '', F.grey, 40),
+    chip(380, 440, 130, 76, 'SI', '', F.blue, 40),
+    cross(290, 478, 30),
+    text(290, 590, 'allowed — not recommended', { size: 30, color: R, anchor: 'middle' }),
+    meaning(65, 640, 450, ['Cash customer takes the bag', 'right away? Skip the DO and', 'go straight SO → SI.', 'Allowed, but not the best.']),
   );
   st(
     'Rule 9 — Extra charges, like a ₹20 rickshaw fare, are linked to the bill. Now we know the TRUE cost: ₹370.',
-    tip(
-      'Rule 9 · Landed cost',
-      'Accounts documents can be linked too: an extra-charge voucher linked to the purchase invoice gives the precise (landed) cost.',
-      panel(560, 140, 480, 730),
-      text(580, 195, '9. True (landed) cost', { size: 40, color: R }),
-      text(600, 300, 'Rice bill', { size: 40 }),
-      text(1010, 300, '₹350', { size: 40, anchor: 'end' }),
-      text(600, 380, '+ rickshaw', { size: 40, color: O }),
-      text(1010, 380, '₹20', { size: 40, color: O, anchor: 'end' }),
-      line(600, 410, 1010, 410, { w: 5 }),
-      hl(590, 440, 430, 70, F.green),
-      text(600, 490, 'true cost', { size: 42 }),
-      text(1010, 490, '₹370', { size: 46, anchor: 'end' }),
-      bag(800, 720, 1),
-    ),
+    panel(560, 140, 480, 730),
+    text(580, 195, '9. True (landed) cost', { size: 40, color: R }),
+    text(600, 275, 'Rice bill', { size: 38 }),
+    text(1010, 275, '₹350', { size: 38, anchor: 'end' }),
+    text(600, 340, '+ rickshaw', { size: 38, color: O }),
+    text(1010, 340, '₹20', { size: 38, color: O, anchor: 'end' }),
+    line(600, 366, 1010, 366, { w: 5 }),
+    hl(590, 386, 430, 66, F.green),
+    text(600, 432, 'true cost', { size: 40 }),
+    text(1010, 432, '₹370', { size: 44, anchor: 'end' }),
+    bag(800, 615, 0.75),
+    meaning(575, 640, 450, ['Extra costs, like the', 'rickshaw fare, are linked', 'to the bill. Now we know', 'the TRUE cost: ₹370.']),
   );
   st(
     'Rule 10 — A cost can still be corrected (like an exchange gain) — but ONLY while the month is still open.',
-    tip(
-      'Rule 10 · Cost changes while the period is open',
-      'For consignments the cost can change; e.g. an exchange gain can be allocated to the purchase invoice — only if the reporting period is not closed.',
-      panel(1070, 140, 480, 730),
-      text(1090, 195, '10. Fix cost while open', { size: 40, color: R }),
-      rect(1170, 250, 280, 230, { fill: F.white }),
-      rect(1170, 250, 280, 64, { fill: R }),
-      text(1310, 297, 'NOVEMBER', { size: 36, color: '#ffffff', anchor: 'middle' }),
-      text(1310, 410, 'OPEN', { size: 60, color: G, anchor: 'middle' }),
-      text(1310, 560, '−₹5 adjustment ✓', { size: 36, anchor: 'middle' }),
-      lock(1180, 700, 0.9),
-      text(1240, 735, 'closed = no change', { size: 32 }),
-    ),
+    panel(1070, 140, 480, 730),
+    text(1090, 195, '10. Fix cost while open', { size: 40, color: R }),
+    rect(1170, 225, 280, 190, { fill: F.white }),
+    rect(1170, 225, 280, 60, { fill: R }),
+    text(1310, 268, 'NOVEMBER', { size: 34, color: '#ffffff', anchor: 'middle' }),
+    text(1310, 375, 'OPEN', { size: 58, color: G, anchor: 'middle' }),
+    text(1310, 470, '−₹5 adjustment ✓', { size: 34, anchor: 'middle' }),
+    lock(1150, 540, 0.7),
+    text(1200, 582, 'closed = no change', { size: 30 }),
+    meaning(1085, 640, 450, ['A cost can still be fixed', '(like a ₹5 exchange gain)', 'only while the month is', 'OPEN. Closed = locked.']),
   );
 });
 
 /* =========================================================== 10 · ONE-TO-ONE TAG (p.6) */
 const tag = board('tag', 'Cardinality 1 : 1 (One-to-One)', 'Book p.6', (st) => {
-  st('Cardinality One-to-One (1 : 1): one delivery becomes exactly one bill. But how does the bill remember its delivery?', title('Cardinality 1 : 1 — One-to-One', 'Book p.6'));
+  st('CARDINALITY means: how many papers on one side link to how many on the other. There are 4 kinds: 1 : 1, 1 : N, N : 1 and M : N. First, One-to-One (1 : 1): one delivery becomes exactly one bill. But how does the bill remember its delivery?', title('Cardinality 1 : 1 — One-to-One', 'Book p.6'), text(1530, 170, 'Cardinality = how many papers link to how many papers', { size: 30, color: B, anchor: 'end' }));
   st(
     'One delivery arrives: Goods Receipt Note number 1.',
     tip('GRN 1 · Goods Receipt Note', 'Records one delivery: 1 bag of 5 kg rice arrived.', rect(90, 200, 420, 230, { fill: F.green }), text(120, 275, 'GRN 1', { size: 56 }), text(120, 345, 'delivery', { size: 38 }), text(120, 400, '1 bag · 5 kg rice', { size: 36 })),
@@ -655,45 +695,6 @@ const tag = board('tag', 'Cardinality 1 : 1 (One-to-One)', 'Book p.6', (st) => {
       text(90, 640, 'points back', { size: 42, color: R }),
       text(90, 695, 'to GRN 1', { size: 42, color: R }),
     ),
-  );
-});
-
-/* =========================================================== 10a · THE 4 KINDS OF LINKS (p.6–8) */
-/** mini diagram: every left box links to every right box */
-function mini(x: number, nl: number, nr: number): Item[] {
-  const ys = (n: number) => (n === 1 ? [345] : [305, 385]);
-  const out: Item[] = [];
-  ys(nl).forEach((y) => out.push(...rect(x + 25, y - 26, 110, 52, { fill: F.green, w: 4 }), ...text(x + 80, y + 9, 'GRN', { size: 26, anchor: 'middle' })));
-  ys(nr).forEach((y) => out.push(...rect(x + 215, y - 26, 110, 52, { fill: F.orange, w: 4 }), ...text(x + 270, y + 9, 'PI', { size: 26, anchor: 'middle' })));
-  ys(nl).forEach((a) => ys(nr).forEach((b) => out.push(...arrow([[x + 139, a], [x + 209, b]], { w: 4, color: B }))));
-  return out;
-}
-const KINDS: [string, string, number, number, string, string, string, string][] = [
-  ['1 : 1', 'One-to-One', 1, 1, 'one delivery →', 'exactly one bill', 'GRN 1 → PI 1', 'One-to-one: one delivery becomes exactly one bill. The simplest case.'],
-  ['1 : N', 'One-to-Many', 1, 2, 'one delivery →', 'many bills', 'rice + sugar → 2 bills', 'One-to-many: ONE delivery is billed in MANY bills.'],
-  ['N : 1', 'Many-to-One', 2, 1, 'many deliveries →', 'one bill', 'Mon + Thu → 1 weekly bill', 'Many-to-one: MANY deliveries are put into ONE bill.'],
-  ['M : N', 'Many-to-Many', 2, 2, 'any delivery →', 'any bill', '2 × 2 = 4 links', 'Many-to-many: any delivery can go into any bill — every pair. This is called a Cartesian link.'],
-];
-const links = board('links', 'Cardinality: 4 kinds of links', 'Book p.6–8', (st) => {
-  st('A delivery and its bill must be linked. CARDINALITY means: how many papers on one side link to how many on the other. There are 4 kinds.', title('Cardinality — 4 kinds of links', 'Book p.6–8'));
-  KINDS.forEach(([code, name, nl, nr, m1, m2, ex, say], i) => {
-    const x = 60 + i * 375;
-    st(
-      say,
-      rect(x, 150, 350, 500, { fill: F.white }),
-      text(x + 175, 222, code, { size: 60, color: P, anchor: 'middle' }),
-      text(x + 175, 268, name, { size: 34, anchor: 'middle' }),
-      mini(x, nl, nr),
-      text(x + 175, 490, m1, { size: 30, anchor: 'middle' }),
-      text(x + 175, 532, m2, { size: 30, anchor: 'middle' }),
-      text(x + 175, 610, ex, { size: 26, color: B, anchor: 'middle' }),
-    );
-  });
-  st(
-    'In every kind, each bill line keeps a tag that points back to its delivery line.',
-    hl(200, 700, 1200, 80, F.yellow),
-    text(800, 756, 'Every bill line keeps a tag back to its delivery line', { size: 40, anchor: 'middle' }),
-    text(800, 840, 'Cardinality = how many papers link to how many papers', { size: 34, color: B, anchor: 'middle' }),
   );
 });
 
@@ -775,7 +776,7 @@ const many2one = board('many2one', 'Cardinality N : 1 (Many-to-One)', 'Book p.7'
 
 /* =========================================================== 12 · MANY-TO-MANY (p.8) */
 const many = board('many', 'Cardinality M : N (Many-to-Many)', 'Book p.8', (st) => {
-  st('Cardinality Many-to-Many (M : N), also called Cartesian: many deliveries and many bills, all linked to each other.', title('Cardinality M : N — Many-to-Many (Cartesian)', undefined, 70, 92, 1250));
+  st('Cardinality Many-to-Many (M : N), also called Cartesian: many deliveries and many bills, all linked to each other.', title('Cardinality M : N — Many-to-Many (Cartesian)', undefined, 70, 92, 1290));
   st(
     'Two deliveries of 10 bags each on the left. Two bills of 10 bags each on the right.',
     chip(120, 170, 380, 100, 'GRN 1 · 10 bags', '', F.green, 40),
@@ -879,10 +880,10 @@ const cycle = board('cycle', 'The full cycle', 'Book p.9', (st) => {
 /* =========================================================== 14 · RECAP */
 const RECAP: [string, string][] = [
   ['One form, many papers — papers copy each other', 'Boards 2–3 · Source Document vs Document (p.4) and inheritance (p.5).'],
-  ['Purchase cycle: PR → PQ → PO → GRN → PI → PV', 'Boards 4–11 · The buying story: the 6 papers the home (buyer) writes.'],
-  ['Sales cycle: SE → SQ → SO → DO → SI → RV', 'Boards 12–19 · The selling story: the 6 papers the grocery (seller) writes.'],
-  ['Every home paper has a reciprocal grocery paper', 'Boards 20–21 · Reciprocal papers and the full cycle: both books match.'],
-  ['Link later, but check stock now', 'Boards 22–30 · How papers link, and the linking rules (p.5–8).'],
+  ['Purchase cycle: PR → PQ → PO → GRN → PI → PV', 'Boards 4–9 · The buying story: the 6 papers the home (buyer) writes.'],
+  ['Sales cycle: SE → SQ → SO → DO → SI → RV', 'Boards 10–15 · The selling story: the 6 papers the grocery (seller) writes.'],
+  ['Every home paper has a reciprocal grocery paper', 'Boards 16–17 · Reciprocal papers and the full cycle: both books match.'],
+  ['Link later, but check stock now', 'Boards 18–25 · The sales chain, the linking rules and cardinality (p.5–8).'],
 ];
 const recap = board('recap', 'Remember', 'Summary', (st) => {
   st('Five things to remember from this topic.', title('Remember', 'Summary', 70, 92, 330));
@@ -890,8 +891,8 @@ const recap = board('recap', 'Remember', 'Summary', (st) => {
   st('Thank you! Any questions?', bag(1370, 870, 1.2), hl(560, 800, 520, 76, F.yellow), text(820, 860, 'Thank you!', { size: 72, color: R, anchor: 'middle' }));
 });
 
-const { purchase1, purchase2, sales1, sales2, BUY_STORY, SELL_STORY } = CYCLE_BOARDS;
-const ERP_BOARDS: Board[] = [cover, mould, copy, ...BUY_STORY, purchase1, purchase2, ...SELL_STORY, sales1, sales2, twins, cycle, chain, rules1, rules2, rules3, links, tag, one2many, many2one, many, recap].map((x) => ({ ...x, topic: 2 }));
+const { BUY_STORY, SELL_STORY } = CYCLE_BOARDS;
+const ERP_BOARDS: Board[] = [cover, mould, copy, ...BUY_STORY, ...SELL_STORY, twins, cycle, chain, rules1, rules2, rules3, tag, one2many, many2one, many, recap].map((x) => ({ ...x, topic: 2 }));
 
 /** the two separate topics of the seminar */
 export const TOPICS = [

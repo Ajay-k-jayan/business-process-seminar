@@ -19,16 +19,20 @@ export type Txt = {
   rotate?: number;
 };
 /** hover explanation attached to a group of drawn items */
-export type Tip = { title: string; text: string };
+export type Tip = { title: string; text: string; ex?: string; cases?: string[] };
 export type Item = (Stroke | Fill | Txt) & { tip?: Tip };
 export type Step = { say: string; items: Item[] };
 
 /** attach a hover explanation to everything drawn by the given helpers */
 export function tip(title: string, textStr: string, ...groups: Item[][]): Item[] {
-  const t: Tip = { title, text: textStr };
+  return info({ title, text: textStr }, ...groups);
+}
+/** attach a detailed hover card (meaning, example, cases) */
+export function info(t: Tip, ...groups: Item[][]): Item[] {
   return groups.flat().map((it) => ({ ...it, tip: t }));
 }
-export type Board = { id: string; label: string; page: string; steps: Step[]; topic?: number };
+/** hover = true: pointing at a group on this board opens its detail card */
+export type Board = { id: string; label: string; page: string; steps: Step[]; topic?: number; hover?: boolean };
 
 /** marker colours: dark and saturated so they survive a projector */
 export const K = '#16191d'; // black marker
