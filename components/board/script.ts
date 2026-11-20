@@ -762,20 +762,7 @@ const many = board('many', 'Many-to-many', 'Book p.8', (st) => {
       ),
     ),
   );
-  st(
-    'One bill line can carry only one tag, so these links go into a SEPARATE table: DOCUMENT_ALLOCATION.',
-    tip(
-      'DOCUMENT_ALLOCATION',
-      'A separate link table for many-to-many. The DA_FM… fields hold the “from” document: financial year, type, number and line.',
-      rect(330, 560, 940, 230, { fill: '#ffe7a3' }),
-      text(800, 618, 'DOCUMENT_ALLOCATION', { size: 46, color: R, anchor: 'middle' }),
-      text(380, 685, 'DA_FMFYCODE', { size: 34 }),
-      text(380, 750, 'DA_FMDOCTYPE', { size: 34 }),
-      text(840, 685, 'DA_FMDOCNO', { size: 34 }),
-      text(840, 750, 'DA_FMDOCSRNO', { size: 34 }),
-    ),
-  );
-  st('Push or pull — every document needs to be linked!', hl(420, 810, 760, 60, F.yellow), text(800, 852, 'Push or pull — every document gets linked!', { size: 40, anchor: 'middle' }));
+  st('Push or pull — every document needs to be linked!', hl(420, 640, 760, 60, F.yellow), text(800, 682, 'Push or pull — every document gets linked!', { size: 40, anchor: 'middle' }));
 });
 
 /* =========================================================== 13 · FULL CYCLE (p.9) */
