@@ -4,15 +4,15 @@
 
 import { ChevronLeft, ChevronRight, Expand, List, RotateCcw, X } from 'lucide-react';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import type { Item, Tip } from './kit';
+import type { Item } from './kit';
 import { BOARDS, TOPICS } from './script';
 
 const HAND = 'var(--font-kalam), "Segoe Print", "Comic Sans MS", cursive';
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 
-function ItemEl({ it, cur, cid, tk }: { it: Item; cur?: number; cid: string; tk?: string }) {
+function ItemEl({ it, cur, cid }: { it: Item; cur?: number; cid: string }) {
   const live = cur !== undefined;
-  const data = { ...(live ? { 'data-cur': cur, 'data-kind': it.kind, 'data-color': it.color } : {}), ...(tk ? { 'data-tip': tk } : {}) };
+  const data = live ? { 'data-cur': cur, 'data-kind': it.kind, 'data-color': it.color } : {};
   const style = live ? { visibility: 'hidden' as const } : undefined;
   if (it.kind === 'path')
     return <path d={it.d} fill="none" stroke={it.color} strokeWidth={it.w} strokeLinecap="round" strokeLinejoin="round" style={style} {...data} />;
@@ -27,7 +27,6 @@ function ItemEl({ it, cur, cid, tk }: { it: Item; cur?: number; cid: string; tk?
       fontWeight={700}
       transform={it.rotate ? `rotate(${it.rotate} ${it.x} ${it.y})` : undefined}
       style={{ fontFamily: HAND }}
-      {...(!live && tk ? { 'data-tip': tk } : {})}
     >
       {it.text}
     </text>
@@ -44,8 +43,6 @@ function ItemEl({ it, cur, cid, tk }: { it: Item; cur?: number; cid: string; tk?
 }
 
 type Anim = { el: SVGElement; kind: string; L: number; dur: number; color: string };
-type Box = { key: string; x: number; y: number; w: number; h: number; tip: Tip };
-type TipRef = { key: string; si: number; t: Tip };
 
 export default function Whiteboard() {
   const [b, setB] = useState(0);
@@ -54,10 +51,7 @@ export default function Whiteboard() {
   const [wipe, setWipe] = useState(false);
   const [menu, setMenu] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [boxes, setBoxes] = useState<Box[]>([]);
-  const [hover, setHover] = useState<{ key: string; x: number; y: number } | null>(null);
   const frameRef = useRef<HTMLDivElement>(null);
-  const tipsRef = useRef<TipRef[]>([]);
   const svgRef = useRef<SVGSVGElement>(null);
   const penRef = useRef<SVGGElement>(null);
   const capRef = useRef<SVGRectElement>(null);
@@ -178,39 +172,6 @@ export default function Whiteboard() {
     return () => cancelAnimationFrame(raf);
   }, [b, s, take]);
 
-  /* ---------- hover areas around every explained drawing ---------- */
-  useLayoutEffect(() => {
-    const svg = svgRef.current;
-    if (!svg) return;
-    const out: Box[] = [];
-    for (const tp of tipsRef.current) {
-      if (tp.si === s && busy) continue;
-      let x1 = Infinity;
-      let y1 = Infinity;
-      let x2 = -Infinity;
-      let y2 = -Infinity;
-      svg.querySelectorAll<SVGGraphicsElement>(`[data-tip="${tp.key}"]`).forEach((el) => {
-        const bb = el.getBBox();
-        if (!bb.width && !bb.height) return;
-        x1 = Math.min(x1, bb.x);
-        y1 = Math.min(y1, bb.y);
-        x2 = Math.max(x2, bb.x + bb.width);
-        y2 = Math.max(y2, bb.y + bb.height);
-      });
-      if (x1 < Infinity) out.push({ key: tp.key, x: x1 - 12, y: y1 - 12, w: x2 - x1 + 24, h: y2 - y1 + 24, tip: tp.t });
-    }
-    out.sort((p, q) => q.w * q.h - p.w * p.h);
-    setBoxes(out);
-  }, [b, s, take, busy]);
-
-  useEffect(() => setHover(null), [b, s]);
-
-  const onHover = (bx: Box, e: React.MouseEvent) => {
-    const r = frameRef.current?.getBoundingClientRect();
-    if (!r) return;
-    setHover({ key: bx.key, x: e.clientX - r.left, y: e.clientY - r.top });
-  };
-
   /* ---------- navigation ---------- */
   const goBoard = useCallback((nb: number, ns = 0) => {
     setMenu(false);
@@ -293,30 +254,15 @@ export default function Whiteboard() {
   /* ---------- render ---------- */
   const fills: React.ReactNode[] = [];
   const strokes: React.ReactNode[] = [];
-  const tipList: TipRef[] = [];
   board.steps.slice(0, s + 1).forEach((stp, si) => {
-    const seen = new Map<Tip, string>();
     stp.items.forEach((it, ii) => {
-      let tk: string | undefined;
-      if (it.tip) {
-        tk = seen.get(it.tip);
-        if (!tk) {
-          tk = `${si}-${seen.size}`;
-          seen.set(it.tip, tk);
-          tipList.push({ key: tk, si, t: it.tip });
-        }
-      }
       const key = `${b}-${si}-${ii}-${si === s ? take : 0}`;
-      const el = <ItemEl key={key} it={it} tk={tk} cur={si === s ? ii : undefined} cid={`c${b}-${si}-${ii}-${take}`} />;
+      const el = <ItemEl key={key} it={it} cur={si === s ? ii : undefined} cid={`c${b}-${si}-${ii}-${take}`} />;
       if (it.kind === 'fill') fills.push(el);
       else strokes.push(el);
     });
   });
 
-  tipsRef.current = tipList;
-  const hb = hover ? boxes.find((x) => x.key === hover.key) : undefined;
-  const fw = frameRef.current?.clientWidth ?? 1600;
-  const fh = frameRef.current?.clientHeight ?? 900;
   // the two topics are separate: progress and numbering count inside the current topic only
   const topicBoards = BOARDS.filter((x) => x.topic === board.topic);
   const tIdx = topicBoards.indexOf(board);
@@ -333,39 +279,6 @@ export default function Whiteboard() {
             <svg ref={svgRef} viewBox="0 0 1600 900" className="block h-full w-full" role="img" aria-label={`${board.label}: ${step.say}`}>
               <g>{fills}</g>
               <g>{strokes}</g>
-              {/* hover areas + highlight */}
-              <g>
-                {boxes.map((bx) => (
-                  <rect
-                    key={bx.key}
-                    x={bx.x}
-                    y={bx.y}
-                    width={bx.w}
-                    height={bx.h}
-                    fill="transparent"
-                    style={{ cursor: 'help' }}
-                    onMouseEnter={(e) => onHover(bx, e)}
-                    onMouseMove={(e) => onHover(bx, e)}
-                    onMouseLeave={() => setHover((h) => (h?.key === bx.key ? null : h))}
-                  />
-                ))}
-                {boxes.map((bx) => (
-                  <g
-                    key={`i-${bx.key}`}
-                    className={`wb-info ${hover?.key === bx.key ? 'on' : ''}`}
-                    transform={`translate(${bx.x + bx.w - 2} ${bx.y + 2})`}
-                    style={{ cursor: 'help' }}
-                    onMouseEnter={(e) => onHover(bx, e)}
-                    onMouseMove={(e) => onHover(bx, e)}
-                    onMouseLeave={() => setHover((h) => (h?.key === bx.key ? null : h))}
-                  >
-                    <circle r={12} fill="#1c7ed6" stroke="#fff" strokeWidth={2.5} />
-                    <circle cy={-5.2} r={2.1} fill="#fff" />
-                    <rect x={-1.9} y={-1.2} width={3.8} height={8} rx={1.6} fill="#fff" />
-                  </g>
-                ))}
-                {hb && <rect className="wb-hl" x={hb.x} y={hb.y} width={hb.w} height={hb.h} rx={16} fill="rgba(255,212,59,0.16)" stroke="#f08c00" strokeWidth={5} strokeDasharray="16 10" pointerEvents="none" />}
-              </g>
               {/* the marker pen */}
               <g ref={penRef} style={{ opacity: 0, transition: 'opacity .15s' }} pointerEvents="none">
                 <g transform="rotate(28)">
@@ -382,19 +295,6 @@ export default function Whiteboard() {
             </div>
           </div>
           <div className="wb-tray" />
-          {hover && hb && (
-            <div
-              className="wb-tip pointer-events-none absolute z-10"
-              style={{
-                left: hover.x + (hover.x > fw * 0.6 ? -20 : 20),
-                top: hover.y + (hover.y > fh * 0.55 ? -20 : 20),
-                transform: `translate(${hover.x > fw * 0.6 ? '-100%' : '0'}, ${hover.y > fh * 0.55 ? '-100%' : '0'})`,
-              }}
-            >
-              <div className="wb-tip-title">{hb.tip.title}</div>
-              <div className="wb-tip-text">{hb.tip.text}</div>
-            </div>
-          )}
         </div>
       </div>
 

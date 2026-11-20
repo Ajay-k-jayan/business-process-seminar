@@ -122,20 +122,6 @@ body {
 .wb-next:disabled {
   opacity: 0.4;
 }
-/* small (i) badge on drawings that have a hover explanation */
-.wb-info {
-  animation: wbinfo 0.3s ease-out;
-  transition: transform 0.15s;
-}
-.wb-info circle:first-child {
-  transition: fill 0.15s;
-}
-.wb-info.on circle:first-child {
-  fill: #f08c00;
-}
-@keyframes wbinfo {
-  from { opacity: 0; }
-}
 .wb-sub {
   animation: wbsub 0.45s ease-out;
 }
@@ -144,41 +130,6 @@ body {
   to { opacity: 1; transform: none; }
 }
 
-/* hover explanation */
-.wb-tip {
-  width: max-content;
-  max-width: min(380px, 60%);
-  background: #fff;
-  border: 3px solid #0f1729;
-  border-radius: 14px;
-  box-shadow: 0 8px 0 #0f1729, 0 18px 30px -10px rgba(15, 23, 41, 0.4);
-  overflow: hidden;
-  animation: wbtip 0.16s ease-out;
-}
-.wb-tip-title {
-  background: #ffd43b;
-  padding: 8px 14px;
-  font-weight: 800;
-  font-size: clamp(14px, 1.15vw, 19px);
-  color: #0f1729;
-  border-bottom: 3px solid #0f1729;
-}
-.wb-tip-text {
-  padding: 10px 14px 12px;
-  font-weight: 600;
-  font-size: clamp(13px, 1.05vw, 17px);
-  line-height: 1.4;
-  color: #0f1729;
-}
-@keyframes wbtip {
-  from { opacity: 0; }
-}
-.wb-hl {
-  animation: wbhl 1.2s linear infinite;
-}
-@keyframes wbhl {
-  to { stroke-dashoffset: -52; }
-}
 @media (prefers-reduced-motion: reduce) {
-  .wb-hl, .wb-sub, .wb-tip, .wb-info { animation: none; }
+  .wb-sub { animation: none; }
 }

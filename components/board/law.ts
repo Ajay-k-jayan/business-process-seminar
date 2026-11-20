@@ -67,9 +67,9 @@ function umbrella(cx: number, by: number, s = 1, fill: string = F.purple): Item[
 const cover = coverBoard(
   'law-cover',
   1,
-  'Ignorance of the Law',
-  '“Ignorantia juris non excusat” — not knowing the law is no excuse',
-  'Topic 1: an old rule of law — “ignorance of the law is no excuse”. We explain it in simple words.',
+  'Ignorantia juris non excusat',
+  'Latin for: “Ignorance of the law is no excuse”',
+  'Topic 1: “Ignorantia juris non excusat” — Latin for “ignorance of the law is no excuse”. We explain it in simple words.',
   [
     ['What the rule means, word by word', 'First, we learn what the rule means — word by word.'],
     ['The helmet story — and a real Kerala case', 'Then a simple story, and a real road case from Kerala, show how the rule works in real life.'],
@@ -87,13 +87,15 @@ const WORDS: [string, string, string, string, string][] = [
 ];
 const rule = board('law-rule', 'The rule, word by word', SRC, (st) => {
   st(
-    'The rule is very old, so it is written in Latin: “Ignorantia juris non excusat”.',
+    'The words are LATIN — the language of ancient Rome. The rule comes from old Roman law.',
     tip(
       'Ignorantia juris non excusat',
-      'A very old rule of law. If you break a law, you cannot escape the blame just because you did not know that law.',
+      'A very old rule of law, written in Latin, the language of ancient Rome. It comes from old Roman law.',
+      rect(60, 66, 132, 64, { fill: F.pink, color: R }),
+      text(126, 111, 'LATIN', { size: 34, color: R, anchor: 'middle' }),
       hl(210, 50, 1180, 104),
       text(800, 128, 'Ignorantia juris non excusat', { size: 82, anchor: 'middle' }),
-      text(800, 196, 'say it: ig-no-RAN-tee-a  YOO-ris  non  ex-KOO-sat', { size: 34, color: B, anchor: 'middle' }),
+      text(800, 196, 'Latin, from old Roman law  ·  say it: ig-no-RAN-tee-a  YOO-ris  non  ex-KOO-sat', { size: 30, color: B, anchor: 'middle' }),
     ),
   );
   WORDS.forEach(([latin, eng, extra, say, tx], i) => {
