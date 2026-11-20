@@ -7,7 +7,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import type { Item } from './kit';
 import { BOARDS, TOPICS } from './script';
 
-const HAND = 'var(--font-kalam), "Segoe Print", "Comic Sans MS", cursive';
+const HAND = 'var(--font-board), "Segoe UI", Arial, sans-serif';
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 
 function ItemEl({ it, cur, cid }: { it: Item; cur?: number; cid: string }) {
@@ -273,9 +273,9 @@ export default function Whiteboard() {
   return (
     <div className="wb fixed inset-0 flex select-none flex-col overflow-hidden">
       {/* board */}
-      <div className="flex min-h-0 flex-1 items-center justify-center px-4 pt-4 md:px-6">
-        <div ref={frameRef} className="wb-frame relative" style={{ width: 'min(calc(100vw - 40px), calc((100dvh - 150px) * 1.7778))', aspectRatio: '16 / 9' }} onClick={next}>
-          <div className="absolute inset-0 overflow-hidden rounded-md bg-[#fdfdfb]">
+      <div className="flex min-h-0 flex-1 items-center justify-center p-1">
+        <div ref={frameRef} className="wb-frame relative" style={{ width: 'min(calc(100vw - 8px), calc((100dvh - 142px) * 1.7778))', aspectRatio: '16 / 9' }} onClick={next}>
+          <div className="absolute inset-0 overflow-hidden bg-white">
             <svg ref={svgRef} viewBox="0 0 1600 900" className="block h-full w-full" role="img" aria-label={`${board.label}: ${step.say}`}>
               <g>{fills}</g>
               <g>{strokes}</g>
@@ -294,12 +294,11 @@ export default function Whiteboard() {
               <div className="wb-eraser" />
             </div>
           </div>
-          <div className="wb-tray" />
         </div>
       </div>
 
       {/* subtitle bar */}
-      <div className="relative z-10 mt-3 bg-[#0f1729] text-white" onClick={(e) => e.stopPropagation()}>
+      <div className="relative z-10 mt-1 bg-[#0f1729] text-white" onClick={(e) => e.stopPropagation()}>
         <div className="absolute inset-x-0 top-0 h-1.5 bg-white/10">
           <div className="h-full bg-[#ffd43b] transition-all duration-500" style={{ width: `${(doneSteps / total) * 100}%` }} />
         </div>
@@ -310,7 +309,7 @@ export default function Whiteboard() {
             </span>
             <span className="max-w-[220px] truncate text-[15px] font-bold text-white/70">{board.label}</span>
           </div>
-          <p key={`${b}-${s}`} className="wb-sub min-h-[2.6em] flex-1 font-semibold leading-snug" style={{ fontSize: 'clamp(17px, 1.8vw, 30px)' }}>
+          <p key={`${b}-${s}`} className="wb-sub min-h-[2.6em] flex-1 font-semibold leading-snug" style={{ fontSize: 'clamp(17px, 1.85vw, 36px)' }}>
             {step.say}
           </p>
           <div className="flex shrink-0 flex-col items-end gap-1.5">

@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Kalam } from 'next/font/google';
+import { Barlow, Inter } from 'next/font/google';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
-const kalam = Kalam({ subsets: ['latin'], weight: ['400', '700'], variable: '--font-kalam', display: 'block' });
+const barlow = Barlow({ subsets: ['latin'], weight: ['600', '700', '800'], variable: '--font-board', display: 'block' });
 
 export const metadata: Metadata = {
   title: 'Business Process',
@@ -15,7 +15,7 @@ export const viewport: Viewport = { width: 'device-width', initialScale: 1, view
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${kalam.variable}`}>{children}</body>
+      <body className={`${inter.variable} ${barlow.variable}`}>{children}</body>
     </html>
   );
 }

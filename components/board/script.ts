@@ -197,7 +197,7 @@ const copy = board('copy', 'The magic copy', 'Book p.5', (st) => {
     ),
   );
   st('The child only adds its OWN new detail — the delivery time.', tip('Its own new detail', 'A new document only adds what is new — here the delivery time.', hl(970, 505, 400, 62, F.green), text(980, 550, '+ Delivery: 6 PM', { size: 40, color: K })));
-  st('Typed once, copied everywhere. That is inheritance.', hl(420, 735, 760, 74, F.yellow), text(800, 790, 'Typed once → copied everywhere', { size: 52, anchor: 'middle' }));
+  st('Typed once, copied everywhere. That is inheritance.', hl(380, 735, 840, 74, F.yellow), text(800, 790, 'Typed once → copied everywhere', { size: 52, anchor: 'middle' }));
 });
 
 /* =========================================================== 5 · THE SALES CHAIN (p.5 diagram) */
@@ -253,21 +253,21 @@ const chain = board('chain', 'The sales chain', 'Book p.5', (st) => {
         [560, 170],
         [560, 850],
       ],
-      { color: '#9aa4b1', w: 4 },
+      { color: '#5f6b7a', w: 4 },
     ),
     dashed(
       [
         [770, 170],
         [770, 850],
       ],
-      { color: '#9aa4b1', w: 4 },
+      { color: '#5f6b7a', w: 4 },
     ),
     dashed(
       [
         [1190, 170],
         [1190, 850],
       ],
-      { color: '#9aa4b1', w: 4 },
+      { color: '#5f6b7a', w: 4 },
     ),
   );
   st(

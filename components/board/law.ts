@@ -150,7 +150,7 @@ const story = board('law-story', 'A story on the road', SRC, (st) => {
   );
   st(
     'Step 2: A rider goes out on a scooter — without a helmet.',
-    line(420, 772, 1560, 772, { w: 4, color: '#9aa4b1' }),
+    line(420, 772, 1560, 772, { w: 4, color: '#5f6b7a' }),
     tip(
       'Riding with no helmet',
       'The rider uses the scooter but does not wear a helmet. This breaks the rule.',
@@ -243,7 +243,7 @@ const kerala = board('law-kerala', 'Real case: Kerala road', 'Kerala news', (st)
   );
   st(
     'A car came at very high speed. Some reports said 218 km/h — the police were still checking that number.',
-    line(680, 445, 1540, 445, { w: 4, color: '#9aa4b1' }),
+    line(680, 445, 1540, 445, { w: 4, color: '#5f6b7a' }),
     tip(
       'A car at very high speed',
       'CCTV showed the car coming very fast. A speed of 218 km/h was reported, but the police were still checking it.',
@@ -385,7 +385,7 @@ const obey = board('law-obey', 'Why we obey the rules', SRC, (st) => {
       ellipse(165, 535, 44, 44, { fill: '#ffd43b', w: 3 }),
       ellipse(165, 584, 44, 44, { fill: '#51cf66', w: 3 }),
       line(165, 620, 165, 640, { w: 6 }),
-      line(110, 640, 760, 640, { w: 4, color: '#9aa4b1' }),
+      line(110, 640, 760, 640, { w: 4, color: '#5f6b7a' }),
       car(380, 640, 0.7, F.blue),
       car(620, 640, 0.7, F.green),
       text(420, 712, 'stop at red, go at green', { size: 32, anchor: 'middle' }),
@@ -400,7 +400,7 @@ const obey = board('law-obey', 'Why we obey the rules', SRC, (st) => {
     tip(
       'Nobody obeys',
       'Everyone drives the way they like — too fast, wrong side, no signals. The road becomes like a video game, but real people get hurt.',
-      line(860, 640, 1500, 640, { w: 4, color: '#9aa4b1' }),
+      line(860, 640, 1500, 640, { w: 4, color: '#5f6b7a' }),
       car(1030, 640, 0.7),
       car(1330, 640, 0.7, F.yellow, -1),
       crash(1180, 580),
@@ -639,7 +639,7 @@ const POINTS: [string, string][] = [
   ['Rules keep us safe — so we obey them', 'Board 6 · A game has a restart button. Real life does not.'],
 ];
 const summary = board('law-summary', 'Remember: 5 points', 'Summary', (st) => {
-  st('Let’s remember the five main points of this topic.', title('Remember: 5 points', 'Summary'));
+  st('Let’s remember the five main points of this topic.', title('Remember: 5 points', 'Summary', 70, 92, 620));
   POINTS.forEach(([p, where], i) => st(p + '.', tip(p, where, tick(100, 225 + i * 115, 1.1), text(180, 240 + i * 115, `${i + 1}. ${p}`, { size: 46 }))));
 });
 

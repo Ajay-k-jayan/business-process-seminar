@@ -261,7 +261,7 @@ function storyBoards(prefix: string, page: string, side: 'home' | 'shop', list: 
         s.intro,
         title(`${k + 1}. ${s.code} — ${s.full}`, page),
         text(70, 190, s.time, { size: 32, color: ink }),
-        line(60, GROUND + 2, 920, GROUND + 2, { w: 4, color: '#9aa4b1' }),
+        line(60, GROUND + 2, 920, GROUND + 2, { w: 4, color: '#5f6b7a' }),
         strip(codes, k, fill),
       );
       st(s.sceneSay, s.scene);

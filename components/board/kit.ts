@@ -55,12 +55,12 @@ export const F = {
 
 type Opt = { color?: string; w?: number; fill?: string; rough?: number };
 
-function o(color: string, w: number, fill?: string, roughness = 0.9) {
+function o(color: string, w: number, fill?: string, roughness = 0.3) {
   return {
     stroke: color,
     strokeWidth: w,
     roughness,
-    bowing: 0.6,
+    bowing: 0.15,
     disableMultiStroke: true,
     disableMultiStrokeFill: true,
     preserveVertices: true,
@@ -276,7 +276,7 @@ export function luggage(x: number, y: number, w: number, h: number): Item[] {
 }
 
 /** panel frame for rules */
-export const panel = (x: number, y: number, w: number, h: number) => rect(x, y, w, h, { color: '#9aa4b1', w: 3, fill: '#fbfcfd', rough: 0.6 });
+export const panel = (x: number, y: number, w: number, h: number) => rect(x, y, w, h, { color: '#5f6b7a', w: 3, fill: '#fbfcfd', rough: 0.6 });
 
 /** title with yellow highlighter + book page tag */
 export function title(str: string, page?: string, x = 70, y = 92, w?: number): Item[] {

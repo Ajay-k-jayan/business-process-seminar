@@ -20,29 +20,17 @@ body {
 
 /* ---------- whiteboard ---------- */
 .wb {
-  background: radial-gradient(1200px 700px at 50% 40%, #f7f9fc 0%, #e4e9f0 100%);
+  background: #ffffff;
   color: #0f1729;
 }
 .wb-frame {
-  border: 14px solid #cfd6df;
-  border-radius: 14px;
-  box-shadow: inset 0 0 0 2px #b4bcc7, 0 18px 40px -16px rgba(15, 23, 41, 0.45);
-  background: #fdfdfb;
+  background: #ffffff;
   cursor: pointer;
-}
-.wb-tray {
-  position: absolute;
-  left: 18%;
-  right: 18%;
-  bottom: -26px;
-  height: 14px;
-  border-radius: 0 0 8px 8px;
-  background: #b4bcc7;
 }
 
 /* board wipe between topics */
 .wb-wipe {
-  background: #fdfdfb;
+  background: #ffffff;
   clip-path: inset(0 100% 0 0);
   opacity: 1;
 }
