@@ -50,6 +50,7 @@ export default function Whiteboard() {
   const [take, setTake] = useState(0);
   const [wipe, setWipe] = useState(false);
   const [menu, setMenu] = useState(false);
+  const [subs, setSubs] = useState(false);
   const [busy, setBusy] = useState(false);
   const frameRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -227,6 +228,7 @@ export default function Whiteboard() {
       } else if (k === 'r' || k === 'R') replay();
       else if (k === 'f' || k === 'F') fullscreen();
       else if (k === 'c' || k === 'C' || k === 'm' || k === 'M') setMenu((v) => !v);
+      else if (k === 's' || k === 'S') setSubs((v) => !v);
       else if (k === 'Escape') setMenu(false);
       else if (k === 'Home') goBoard(0);
     };
@@ -274,7 +276,7 @@ export default function Whiteboard() {
     <div className="wb fixed inset-0 flex select-none flex-col overflow-hidden">
       {/* board */}
       <div className="flex min-h-0 flex-1 items-center justify-center p-1">
-        <div ref={frameRef} className="wb-frame relative" style={{ width: 'min(calc(100vw - 8px), calc((100dvh - 142px) * 1.7778))', aspectRatio: '16 / 9' }} onClick={next}>
+        <div ref={frameRef} className="wb-frame relative" style={{ width: `min(calc(100vw - 8px), calc((100dvh - ${subs ? 150 : 72}px) * 1.7778))`, aspectRatio: '16 / 9' }} onClick={next}>
           <div className="absolute inset-0 overflow-hidden bg-white">
             <svg ref={svgRef} viewBox="0 0 1600 900" className="block h-full w-full" role="img" aria-label={`${board.label}: ${step.say}`}>
               <g>{fills}</g>
@@ -297,43 +299,57 @@ export default function Whiteboard() {
         </div>
       </div>
 
-      {/* subtitle bar */}
+      {/* bottom bar: board selector + Next */}
       <div className="relative z-10 mt-1 bg-[#0f1729] text-white" onClick={(e) => e.stopPropagation()}>
-        <div className="absolute inset-x-0 top-0 h-1.5 bg-white/10">
+        <div className="absolute inset-x-0 top-0 h-1 bg-white/10">
           <div className="h-full bg-[#ffd43b] transition-all duration-500" style={{ width: `${(doneSteps / total) * 100}%` }} />
         </div>
-        <div className="mx-auto flex max-w-[1800px] items-center gap-4 px-4 py-3 md:gap-6 md:px-8">
-          <div className="hidden shrink-0 flex-col items-start gap-1 md:flex">
-            <span className={`rounded-md px-2.5 py-1 text-[15px] font-extrabold uppercase tracking-wide text-[#0f1729] ${board.topic === 1 ? 'bg-[#ffa8c9]' : 'bg-[#8cc8ff]'}`}>
-              Topic {board.topic} · {board.topic === 1 ? 'Law' : 'Business'}
-            </span>
-            <span className="max-w-[220px] truncate text-[15px] font-bold text-white/70">{board.label}</span>
-          </div>
-          <p key={`${b}-${s}`} className="wb-sub min-h-[2.6em] flex-1 font-semibold leading-snug" style={{ fontSize: 'clamp(17px, 1.85vw, 36px)' }}>
+        {subs && (
+          <p key={`${b}-${s}`} className="wb-sub px-4 pt-3 font-semibold leading-snug md:px-6" style={{ fontSize: 'clamp(16px, 1.6vw, 30px)' }}>
             {step.say}
           </p>
-          <div className="flex shrink-0 flex-col items-end gap-1.5">
-            <div className="wb-ctrl">
-              <button type="button" onClick={prev} className="wb-btn" aria-label="Back (←)" title="Back (←)">
-                <ChevronLeft size={19} />
-              </button>
-              <button type="button" onClick={replay} className="wb-btn hidden sm:grid" aria-label="Draw again (R)" title="Draw again (R)">
-                <RotateCcw size={16} />
-              </button>
-              <button type="button" onClick={() => setMenu((v) => !v)} className="wb-btn" aria-label="Contents (C)" title="Contents (C)">
-                <List size={18} />
-              </button>
-              <button type="button" onClick={fullscreen} className="wb-btn hidden sm:grid" aria-label="Full screen (F)" title="Full screen (F)">
-                <Expand size={16} />
-              </button>
-              <button type="button" onClick={next} disabled={last && !busy} className="wb-next" title="Next (Space / click the board)">
-                {busy ? 'Finish' : 'Next'} <ChevronRight size={17} />
-              </button>
-            </div>
-            <span className="hidden pr-1 text-[12px] font-semibold tabular-nums text-white/50 lg:inline">
-              Board {tIdx + 1} of {topicBoards.length} · step {s + 1} of {board.steps.length}
-            </span>
+        )}
+        <div className="flex h-[66px] items-center gap-3 px-3 md:px-6">
+          <span className={`hidden shrink-0 rounded-md px-2.5 py-1 text-[14px] font-extrabold uppercase tracking-wide text-[#0f1729] sm:inline ${board.topic === 1 ? 'bg-[#ffa8c9]' : 'bg-[#8cc8ff]'}`}>
+            Topic {board.topic}
+          </span>
+          <select value={b} onChange={(e) => goBoard(Number(e.target.value))} className="wb-select" aria-label="Choose a board">
+            {TOPICS.map((t) => (
+              <optgroup key={t.n} label={`Topic ${t.n} · ${t.name}`}>
+                {BOARDS.map((x, i) => ({ x, i }))
+                  .filter(({ x }) => x.topic === t.n)
+                  .map(({ x, i }, k) => (
+                    <option key={x.id} value={i}>
+                      {k + 1}. {x.label}
+                    </option>
+                  ))}
+              </optgroup>
+            ))}
+          </select>
+          <span className="hidden shrink-0 text-[15px] font-bold tabular-nums text-white/60 md:inline">
+            {tIdx + 1}/{topicBoards.length} · step {s + 1}/{board.steps.length}
+          </span>
+          <div className="flex-1" />
+          <div className="wb-ctrl">
+            <button type="button" onClick={() => setSubs((v) => !v)} className={`wb-btn wb-cc ${subs ? 'on' : ''}`} aria-label="Subtitles (S)" title="Subtitles (S)">
+              CC
+            </button>
+            <button type="button" onClick={replay} className="wb-btn hidden sm:grid" aria-label="Draw again (R)" title="Draw again (R)">
+              <RotateCcw size={18} />
+            </button>
+            <button type="button" onClick={() => setMenu((v) => !v)} className="wb-btn" aria-label="Contents (C)" title="Contents (C)">
+              <List size={20} />
+            </button>
+            <button type="button" onClick={fullscreen} className="wb-btn hidden sm:grid" aria-label="Full screen (F)" title="Full screen (F)">
+              <Expand size={18} />
+            </button>
           </div>
+          <button type="button" onClick={prev} className="wb-prev" aria-label="Back (←)" title="Back (←)">
+            <ChevronLeft size={26} />
+          </button>
+          <button type="button" onClick={next} disabled={last && !busy} className="wb-next" title="Next (Space / click the board)">
+            {busy ? 'Finish' : 'Next'} <ChevronRight size={24} />
+          </button>
         </div>
       </div>
 
