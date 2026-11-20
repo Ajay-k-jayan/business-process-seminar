@@ -328,7 +328,8 @@ export function book(x: number, y: number, w: number, h: number, label: string, 
 }
 
 /** cover board that opens a topic: big topic name, then "What we will learn" ticked one by one */
-export function coverBoard(id: string, n: number, name: string, sub: string, intro: string, learn: [string, string][]): Board {
+export function coverBoard(id: string, n: number, name: string, sub: string, intro: string, learn: [string, string][], sub2?: string): Board {
+  const dy = sub2 ? 40 : 0;
   const steps: Step[] = [
     {
       say: intro,
@@ -338,6 +339,7 @@ export function coverBoard(id: string, n: number, name: string, sub: string, int
         ...hl(800 - name.length * 24 - 30, 160, name.length * 48 + 60, 110),
         ...text(800, 245, name, { size: 92, anchor: 'middle' }),
         ...text(800, 320, sub, { size: 36, color: B, anchor: 'middle' }),
+        ...(sub2 ? text(800, 372, sub2, { size: 34, color: O, anchor: 'middle' }) : []),
       ],
     },
   ];
@@ -345,9 +347,9 @@ export function coverBoard(id: string, n: number, name: string, sub: string, int
     steps.push({
       say,
       items: [
-        ...(i === 0 ? text(260, 410, 'What we will learn:', { size: 44, color: R }) : []),
-        ...tick(280, 478 + i * 92, 1),
-        ...text(350, 492 + i * 92, item, { size: 46 }),
+        ...(i === 0 ? text(260, 410 + dy, 'What we will learn:', { size: 44, color: R }) : []),
+        ...tick(280, 478 + dy + i * 92, 1),
+        ...text(350, 492 + dy + i * 92, item, { size: 46 }),
       ],
     });
   });

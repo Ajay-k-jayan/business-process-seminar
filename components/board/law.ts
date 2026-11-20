@@ -76,6 +76,7 @@ const cover = coverBoard(
     ['Why we obey — and why the rule exists', 'Next: why we obey the rules, and why this rule exists.'],
     ['Where it comes from — and a quick quiz', 'Finally: where the rule comes from — the Bible — and a quick quiz to check what we learned.'],
   ],
+  'say it: ig-no-RAN-tee-a  YOO-ris  non  ex-KOO-sat',
 );
 
 /* =========================================================== 1 · THE RULE, WORD BY WORD */
