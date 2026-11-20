@@ -16,7 +16,6 @@ import {
   cross,
   dashed,
   doc,
-  ellipse,
   hl,
   house,
   line,
@@ -60,50 +59,6 @@ const cover = coverBoard(
 /* =========================================================== 1 · INTRO */
 
 /* =========================================================== 2 · EVERYTHING IS A DOCUMENT (p.3) */
-const everything = board('doc', 'Everything is a document', 'Book p.3', (st) => {
-  st('Book page 3: in FactsERP, EVERYTHING is a document.', title('Everything is a document', 'Book p.3'));
-  st(
-    'A MASTER is made once — like the customer “Home”. A TRANSACTION happens every day — like a sales invoice.',
-    tip(
-      'Master document',
-      'Created once and reused again and again: customers, items, suppliers.',
-      rect(90, 170, 650, 230, { fill: F.purple }),
-      text(120, 240, 'MASTER', { size: 54, color: P }),
-      text(120, 300, 'made once', { size: 38 }),
-      text(120, 360, 'e.g. Customer: Home', { size: 36 }),
-    ),
-    tip(
-      'Transaction document',
-      'Created every day for real work: quotations, orders, deliveries, invoices.',
-      rect(860, 170, 650, 230, { fill: F.blue }),
-      text(890, 240, 'TRANSACTION', { size: 54, color: B }),
-      text(890, 300, 'happens every day', { size: 38 }),
-      text(890, 360, 'e.g. Sales Invoice ₹350', { size: 36 }),
-    ),
-  );
-  st(
-    'Every document keeps a diary: who created it, who changed it, who printed it and who approved it.',
-    tip(
-      'The diary (audit trail)',
-      'FactsERP remembers who created, changed, printed and approved every document — automatically. Documents can also be forwarded for approval.',
-      rect(90, 450, 470, 410, { fill: F.paper }),
-      ...[0, 1, 2, 3, 4].map((i) => ellipse(90, 500 + i * 80, 26, 26, { fill: F.white, w: 4 })),
-      text(130, 520, 'Diary', { size: 46, color: R }),
-      text(130, 590, 'created by…', { size: 36 }),
-      text(130, 655, 'changed by…', { size: 36 }),
-      text(130, 720, 'printed by…', { size: 36 }),
-      text(130, 785, 'approved by…', { size: 36 }),
-    ),
-  );
-  st(
-    'After saving, every document can get 4 extras: follow-up notes, milestones, attachments and a status.',
-    text(640, 495, 'After saving, add:', { size: 40 }),
-    tip('Follow-up notes', 'Notes about calls or reminders, e.g. “customer will pay on Friday”.', rect(640, 530, 410, 140, { fill: F.yellow }), text(845, 615, 'Follow-up notes', { size: 40, anchor: 'middle' })),
-    tip('Milestones', 'Dates by which something must be done, e.g. “deliver by 6 PM”.', rect(1090, 530, 410, 140, { fill: F.green }), text(1295, 615, 'Milestones', { size: 40, anchor: 'middle' })),
-    tip('Attachments', 'Files kept with the document, e.g. a scan of the shop’s paper bill.', rect(640, 700, 410, 140, { fill: F.blue }), text(845, 785, 'Attachments', { size: 40, anchor: 'middle' })),
-    tip('Status', 'Where the document stands now: open, on hold, approved, closed…', rect(1090, 700, 410, 140, { fill: F.pink }), text(1295, 785, 'Status', { size: 40, anchor: 'middle' })),
-  );
-});
 
 /* =========================================================== 3 · MOULD → BRICKS (p.4) */
 const mould = board('mould', 'Mould → Bricks', 'Book p.4', (st) => {
@@ -884,11 +839,11 @@ const cycle = board('cycle', 'The full cycle', 'Book p.9', (st) => {
 
 /* =========================================================== 14 · RECAP */
 const RECAP: [string, string][] = [
-  ['One form, many papers — papers copy each other', 'Boards 3–4 · Source Document vs Document (p.4) and inheritance (p.5).'],
-  ['Purchase cycle: PR → PQ → PO → GRN → PI → PV', 'Boards 5–6 · The 6 papers the home (buyer) writes.'],
-  ['Sales cycle: SE → SQ → SO → DO → SI → RV', 'Boards 7–8 · The 6 papers the grocery (seller) writes.'],
-  ['Every home paper has a grocery twin', 'Boards 9–10 · Twin papers and the full cycle: both books match.'],
-  ['Link later, but check stock now', 'Boards 11–17 · How papers link, and the linking rules (p.5–8).'],
+  ['One form, many papers — papers copy each other', 'Boards 2–3 · Source Document vs Document (p.4) and inheritance (p.5).'],
+  ['Purchase cycle: PR → PQ → PO → GRN → PI → PV', 'Boards 4–5 · The 6 papers the home (buyer) writes.'],
+  ['Sales cycle: SE → SQ → SO → DO → SI → RV', 'Boards 6–7 · The 6 papers the grocery (seller) writes.'],
+  ['Every home paper has a grocery twin', 'Boards 8–9 · Twin papers and the full cycle: both books match.'],
+  ['Link later, but check stock now', 'Boards 10–16 · How papers link, and the linking rules (p.5–8).'],
 ];
 const recap = board('recap', 'Remember', 'Summary', (st) => {
   st('Five things to remember from this topic.', title('Remember', 'Summary', 70, 92, 330));
@@ -897,7 +852,7 @@ const recap = board('recap', 'Remember', 'Summary', (st) => {
 });
 
 const { purchase1, purchase2, sales1, sales2 } = CYCLE_BOARDS;
-const ERP_BOARDS: Board[] = [cover, everything, mould, copy, purchase1, purchase2, sales1, sales2, twins, cycle, chain, rules1, rules2, rules3, tag, messy, many, recap].map((x) => ({ ...x, topic: 2 }));
+const ERP_BOARDS: Board[] = [cover, mould, copy, purchase1, purchase2, sales1, sales2, twins, cycle, chain, rules1, rules2, rules3, tag, messy, many, recap].map((x) => ({ ...x, topic: 2 }));
 
 /** the two separate topics of the seminar */
 export const TOPICS = [

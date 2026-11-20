@@ -30,11 +30,11 @@ Each topic has its own cover, its own examples, its own numbering and progress b
 11 Where the rule comes from (the Bible) · 12 Quick check · 13 Remember: 5 points · 14 In daily life
 
 **Topic 2 — Business Process** (FactsERP Book 2, pages 3–9; one example: a home buys one 5 kg bag of rice for ₹350 from a grocery):
-1 Start · 2 Everything is a document · 3 Mould → Bricks · 4 The magic copy ·
-5–6 **Purchase cycle** (home buys): PR → PQ → PO → GRN → PI → PV ·
-7–8 **Sales cycle** (grocery sells): SE → SQ → SO → DO → SI → RV ·
-9 Twin papers · 10 The full 10-paper cycle · 11 The sales chain · 12–13 Why link separately (rules 1–7) · 14 Rules 8–10 ·
-15 One delivery → one bill · 16 Real deliveries · 17 Many-to-many · 18 Remember
+1 Start · 2 Mould → Bricks · 3 The magic copy ·
+4–5 **Purchase cycle** (home buys): PR → PQ → PO → GRN → PI → PV ·
+6–7 **Sales cycle** (grocery sells): SE → SQ → SO → DO → SI → RV ·
+8 Twin papers · 9 The full 10-paper cycle · 10 The sales chain · 11–12 Why link separately (rules 1–7) · 13 Rules 8–10 ·
+14 One delivery → one bill · 15 Real deliveries · 16 Many-to-many · 17 Remember
 
 A board can be opened directly by its overall number: `http://localhost:3000/#5` (board 5) or `#5.3` (board 5, step 3). Topic 2 starts at `#15`.
 
