@@ -17,6 +17,7 @@ import {
   ellipse,
   gazette,
   hl,
+  image,
   line,
   panel,
   path,
@@ -222,6 +223,20 @@ const CASE: [string, string, string, string, string, string, string][] = [
   ['ALCOHOL?', 'Driver suspected', 'to be drunk —', 'blood test awaited', F.yellow, 'Police suspected the driver had been drinking. This was still waiting for blood test results.', 'Second: the driver was suspected to be drunk. The blood test result was still awaited.'],
   ['POLICE CASE', 'BNS Section 105', '= causing death, knowing', 'the act could kill', F.purple, 'Section 105 of the Bharatiya Nyaya Sanhita: culpable homicide not amounting to murder — no plan to kill, but doing something you know can kill.', 'Third: the driver was booked under BNS Section 105 — causing death while knowing the act could kill.'],
 ];
+/* ---------- before the Kerala case: a photo, and a question for the audience ---------- */
+const who = board('law-who', 'Who is this?', 'Kerala news', (st) => {
+  st(
+    'Look at this photo. Do you know who this is? Shout it out!',
+    title('Who is this guy?', 'Kerala news', 70, 92, 560),
+    rect(296, 136, 1008, 672, { w: 6 }),
+    image(300, 140, 1000, 664, '/kerala-who.png'),
+  );
+  st(
+    'He was all over the news in Kerala. His story is a real case about the law on the road. Let us see what happened.',
+    text(800, 862, 'His story is next — a real case from a Kerala road', { size: 40, color: B, anchor: 'middle' }),
+  );
+});
+
 const kerala = board('law-kerala', 'Real case: Kerala road', 'Kerala news', (st) => {
   st(
     'Our helmet story was made up. Now a REAL case from Kerala, from the news in October 2026.',
@@ -430,7 +445,7 @@ const MEANS: [string, string, string][] = [
 const NOTMEAN: [string, string, string][] = [
   ['Everyone knows every law', 'nobody can know them all', 'It does NOT mean that everyone really knows every law. Nobody can know them all.'],
   ['A secret law still counts', 'a law must be published first', 'It does not mean a secret law counts. A law must be published first.'],
-  ['Mistakes of FACT never count', 'sometimes they can (board 10)', 'It does not mean honest mistakes about FACTS never count. Sometimes they can.'],
+  ['Mistakes of FACT never count', 'sometimes they can (board 11)', 'It does not mean honest mistakes about FACTS never count. Sometimes they can.'],
   ['Punishment is always the same', 'in special cases it can be lower', 'And the punishment is not always the same. In some cases it can be lower.'],
 ];
 const means = board('law-means', 'Means / does not mean', SRC, (st) => {
@@ -633,11 +648,11 @@ const quiz = board('law-quiz', 'Quick check', SRC, (st) => {
 
 /* =========================================================== 12 · REMEMBER */
 const POINTS: [string, string][] = [
-  ['Not knowing the law is no excuse', 'Boards 2–5 · The helmet story and the real Kerala case.'],
-  ['A law must be published first', 'Board 9 · A secret law is no law at all.'],
-  ['Finding out the rules is your job', 'Boards 7 and 8 · Ask, read and check before you act.'],
-  ['An honest mistake about FACTS can be an excuse', 'Board 10 · Mistake of law vs mistake of fact.'],
-  ['Rules keep us safe — so we obey them', 'Board 6 · A game has a restart button. Real life does not.'],
+  ['Not knowing the law is no excuse', 'Boards 2–6 · The helmet story and the real Kerala case.'],
+  ['A law must be published first', 'Board 10 · A secret law is no law at all.'],
+  ['Finding out the rules is your job', 'Boards 8 and 9 · Ask, read and check before you act.'],
+  ['An honest mistake about FACTS can be an excuse', 'Board 11 · Mistake of law vs mistake of fact.'],
+  ['Rules keep us safe — so we obey them', 'Board 7 · A game has a restart button. Real life does not.'],
 ];
 const summary = board('law-summary', 'Remember: 5 points', 'Summary', (st) => {
   st('Let’s remember the five main points of this topic.', title('Remember: 5 points', 'Summary', 70, 92, 620));
@@ -690,4 +705,4 @@ const life = board('law-life', 'In daily life', 'Takeaway', (st) => {
   );
 });
 
-export const LAW_BOARDS: Board[] = [cover, rule, story, kerala, kerala2, obey, means, why, publish, mistake, history, quiz, summary, life].map((x) => ({ ...x, topic: 1 }));
+export const LAW_BOARDS: Board[] = [cover, rule, story, who, kerala, kerala2, obey, means, why, publish, mistake, history, quiz, summary, life].map((x) => ({ ...x, topic: 1 }));

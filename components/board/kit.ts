@@ -20,7 +20,9 @@ export type Txt = {
 };
 /** hover explanation attached to a group of drawn items */
 export type Tip = { title: string; text: string; ex?: string; cases?: string[] };
-export type Item = (Stroke | Fill | Txt) & { tip?: Tip };
+/** a photo, faded in (href is a file in /public) */
+export type Img = { kind: "image"; x: number; y: number; w: number; h: number; href: string; color: string };
+export type Item = (Stroke | Fill | Txt | Img) & { tip?: Tip };
 export type Step = { say: string; items: Item[] };
 
 /** attach a hover explanation to everything drawn by the given helpers */
@@ -99,6 +101,8 @@ export const poly = (pts: [number, number][], { color = K, w = 5, fill, rough: r
   items(gen.polygon(pts, o(color, w, fill, r)));
 
 export const path = (d: string, { color = K, w = 5, fill, rough: r }: Opt = {}) => items(gen.path(d, o(color, w, fill, r)));
+
+export const image = (x: number, y: number, w: number, h: number, href: string): Item[] => [{ kind: "image", x, y, w, h, href, color: K }];
 
 export const text = (
   x: number,

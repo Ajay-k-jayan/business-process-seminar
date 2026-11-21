@@ -25,9 +25,9 @@ Double-click **`Start seminar.cmd`**. The browser opens at http://localhost:3000
 Each topic has its own cover, its own examples, its own numbering and progress bar. The Contents menu (C) lists them side by side.
 
 **Topic 1 — Ignorance of the Law** (*ignorantia juris non excusat*, from the Wikipedia article; everyday examples: a helmet rule, look-alike umbrellas):
-1 Start · 2 The rule, word by word · 3 A story on the road · 4–5 A real case from Kerala · 6 Why we obey the rules ·
-7 What it means / does not mean · 8 Why the rule exists · 9 The law must be published · 10 Mistake of law vs fact ·
-11 Where the rule comes from (the Bible) · 12 Quick check · 13 Remember: 5 points · 14 In daily life
+1 Start · 2 The rule, word by word · 3 A story on the road · 4 Who is this? (photo, ask the audience) · 5–6 A real case from Kerala · 7 Why we obey the rules ·
+8 What it means / does not mean · 9 Why the rule exists · 10 The law must be published · 11 Mistake of law vs fact ·
+12 Where the rule comes from (the Bible) · 13 Quick check · 14 Remember: 5 points · 15 In daily life
 
 **Topic 2 — Business Process** (FactsERP Book 2, pages 3–9; one example: a home buys one 5 kg bag of rice for ₹350 from a grocery):
 1 Start · 2 Mould → Bricks · 3 The magic copy ·
@@ -36,7 +36,7 @@ Each topic has its own cover, its own examples, its own numbering and progress b
 18 Reciprocal papers · 19 The full 10-paper cycle · 20 The sales chain (point at any box for a detail card) · 21–22 Why link separately (rules 1–7) · 23 Rules 8–10 ·
 24 Cardinality 1 : 1 · 25 Cardinality 1 : N · 26 Cardinality N : 1 · 27 Cardinality M : N (Cartesian) · 28 Remember
 
-A board can be opened directly by its overall number: `http://localhost:3000/#5` (board 5) or `#5.3` (board 5, step 3). Topic 2 starts at `#15`.
+A board can be opened directly by its overall number: `http://localhost:3000/#5` (board 5) or `#5.3` (board 5, step 3). Topic 2 starts at `#16`.
 
 ## Change the content
 

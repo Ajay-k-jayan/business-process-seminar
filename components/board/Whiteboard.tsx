@@ -19,6 +19,7 @@ function ItemEl({ it, cur, cid, tid }: { it: Item; cur?: number; cid: string; ti
   if (it.kind === 'path')
     return <path d={it.d} fill="none" stroke={it.color} strokeWidth={it.w} strokeLinecap="round" strokeLinejoin="round" style={style} {...data} />;
   if (it.kind === 'fill') return <path d={it.d} fill={it.color} stroke="none" style={style} {...data} />;
+  if (it.kind === 'image') return <image href={it.href} x={it.x} y={it.y} width={it.w} height={it.h} preserveAspectRatio="xMidYMid meet" style={style} {...data} />;
   const t = (
     <text
       x={it.x}
@@ -86,6 +87,7 @@ export default function Whiteboard() {
         return { el, kind, L, dur: clamp(L / 1500, 0.14, 1.1), color };
       }
       if (kind === 'fill') return { el, kind, L: 0, dur: 0.22, color };
+      if (kind === 'image') return { el, kind, L: 0, dur: 0.6, color };
       const len = el.querySelector('text')?.textContent?.length ?? 4;
       return { el, kind, L: 0, dur: clamp(len * 0.045, 0.28, 1.5), color };
     });
@@ -109,7 +111,7 @@ export default function Whiteboard() {
           a.el.style.strokeDasharray = '';
           a.el.style.strokeDashoffset = '';
         }
-      } else if (a.kind === 'fill') a.el.style.opacity = String(p);
+      } else if (a.kind === 'fill' || a.kind === 'image') a.el.style.opacity = String(p);
       else {
         setText(a, p);
         if (p >= 1) a.el.querySelector('g')?.removeAttribute('clip-path');
